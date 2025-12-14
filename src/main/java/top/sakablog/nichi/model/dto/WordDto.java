@@ -1,0 +1,25 @@
+package top.sakablog.nichi.model.dto;
+
+import jakarta.validation.constraints.NotNull;
+import lombok.Value;
+import top.sakablog.nichi.model.Word;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * DTO for {@link top.sakablog.nichi.model.Word}
+ */
+@Value
+public class WordDto implements Serializable {
+    @NotNull
+    Integer id;
+    @NotNull
+    String japaneseWord;
+    @NotNull
+    String kanaReading;
+    @NotNull
+    String meaningCn;
+    Word.WordType wordType;
+    List<ListWordDto> listWords;
+}
