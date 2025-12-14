@@ -1,7 +1,13 @@
 package top.sakablog.nichi.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.dto.WordDto;
+import top.sakablog.nichi.repository.WordRepository;
 import top.sakablog.nichi.service.WordService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,8 +18,27 @@ import top.sakablog.nichi.service.WordService;
  * @version 1.0.1
  * @since 1.0.0
  */
+@Service
 public class WordServiceImpl implements WordService {
+    @Autowired
+    private WordRepository wordRepository;
+
     public WordDto getAllWordByWordBookId(Integer wordBookId){
+        return null;
+    }
+
+    @Override
+    public Word saveWord(Word word) {
+        return wordRepository.save(word);
+    }
+
+    @Override
+    public List<Word> saveAllWords(List<Word> words) {
+        return wordRepository.saveAllWords(words);
+    }
+
+    @Override
+    public Boolean saveWordByWordBookId(Integer wordBookId, Word word) {
 
         return null;
     }

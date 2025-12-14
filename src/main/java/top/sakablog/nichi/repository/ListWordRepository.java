@@ -16,4 +16,7 @@ import java.util.List;
  */
 public interface ListWordRepository extends JpaRepository<ListWord, Integer> {
     List<ListWord> findListWordByWordBookId(Integer wordBookId);
+
+    void saveListWord(ListWord listWord);
+    List<ListWord> saveAllListWord(List<ListWord> listWords);
 }

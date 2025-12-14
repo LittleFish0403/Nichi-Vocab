@@ -21,5 +21,7 @@ public class WordDto implements Serializable {
     @NotNull
     String meaningCn;
     Word.WordType wordType;
+    String source;
+
     List<ListWordDto> listWords;
 }

@@ -16,4 +16,6 @@ import java.util.List;
  */
 public interface WordRepository extends JpaRepository<Word, Integer> {
     List<Word> findWordById(String id);
+
+    List<Word> saveAllWords(List<Word> words);
 }

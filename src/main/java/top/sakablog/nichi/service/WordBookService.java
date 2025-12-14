@@ -1,6 +1,9 @@
 package top.sakablog.nichi.service;
 
 import org.springframework.stereotype.Service;
+import top.sakablog.nichi.model.WordBook;
+
+import java.io.InputStream;
 
 /**
  * WordBookService
@@ -13,6 +16,21 @@ import org.springframework.stereotype.Service;
  * @since 1.0.0
  */
 public interface WordBookService {
+
+    /* 单词本逻辑操作 */
+
+    /**
+     * 从文件导入单词本
+     *
+     * @param fileName 文件路径 文件格式csv
+     * @return 导入是否成功
+     */
+    public Boolean importWordBookFromCsv(String fileName) throws Exception;
+
+
+    /* 基础 CRUD 操作 */
+
+
     /**
      * 新建单词本，名称和描述使用默认值
      *
@@ -20,7 +38,7 @@ public interface WordBookService {
      * @param description 单词本描述
      * @return 新建单词本的ID，创建失败返回-1
      */
-    public Integer newWordBook(String name, String description);
+    public WordBook newWordBook(String name, String description);
 
     /**
      * 根据单词本ID修改单词本名称

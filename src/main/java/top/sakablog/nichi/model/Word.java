@@ -60,6 +60,9 @@ public class Word {
     @Column(name="word_type", nullable = false)
     private WordType wordType;
 
+    @Column(nullable = true)
+    private String source;
+
     // 关联表
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ListWord> listWords;
