@@ -15,5 +15,5 @@ import top.sakablog.nichi.model.WordBook;
  */
 @Repository
 public interface WordBookRepository extends JpaRepository<WordBook, Integer> {
-    void deleteById(int id);
+
 }

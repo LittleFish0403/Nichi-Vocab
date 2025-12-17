@@ -2,10 +2,13 @@ package top.sakablog.nichi.utils;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.HeaderNameBaseMappingStrategy;
+import org.springframework.stereotype.Component;
 import top.sakablog.nichi.model.dto.ImportWordDto;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -20,6 +23,8 @@ import java.util.List;
  * @version 1.0.1
  * @since 1.0.0
  */
+
+@Component
 public class CsvUtils {
 
     /**
@@ -31,20 +36,18 @@ public class CsvUtils {
      * @throws IOException      文件读写错误
      * @throws IllegalStateException CSV 解析过程中遇到非法状态
      */
-    public static <T> List<T> beanBuilder(Path path, Class<T> clazz) throws IOException, IllegalStateException {
+    public <T> List<T> beanBuilder(Path path, Class<T> clazz) throws Exception {
+        // 1. 显式指定编码（防止中文乱码导致表头匹配失败）
+        try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-        // 使用 Files.newBufferedReader(path) 确保文件以适当的字符集打开
-        try (Reader reader = Files.newBufferedReader(path)) {
-
-            // 1. **修正泛型**：CsvToBeanBuilder 的泛型和 build() 后的对象类型应为 <T>
-            CsvToBean<T> cb = new CsvToBeanBuilder<T>(reader)
+            CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
                     .withType(clazz)
-                    .withIgnoreLeadingWhiteSpace(true) // 忽略空格，增加健壮性
-                    .withSkipLines(1)                  // **新增：跳过 CSV 文件中的第一行（通常是标题行）**
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withOrderedResults(true)
+                    // 关键点：如果不凑效，OpenCSV 默认会尝试使用 HeaderColumnNameMappingStrategy
                     .build();
 
-            // 2. 移除 throws Exception，使用更具体的异常类型
-            return cb.parse();
+            return csvToBean.parse();
         }
     }
 }

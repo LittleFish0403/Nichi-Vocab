@@ -3,6 +3,7 @@ package top.sakablog.nichi.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.sakablog.nichi.model.ListWord;
+import top.sakablog.nichi.model.ListWordId;
 import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.WordBook;
 import top.sakablog.nichi.repository.ListWordRepository;
@@ -25,15 +26,25 @@ public class ListWordServiceImpl implements ListWordService {
     private ListWordRepository listWordRepository;
 
     public ListWord saveListWord(Word word, WordBook wordBook){
-        ListWord listWord = new ListWord().setWord(word).setWordBook(wordBook);
+        ListWord listWord = new ListWord()
+                .setId(new ListWordId()
+                        .setWordId(word.getId()).
+                        setWordBookId(wordBook.getId()))
+                .setWordBook(wordBook)
+                .setWord(word);
         return listWordRepository.save(listWord);
     }
 
     @Override
     public List<ListWord> saveAllListWord(List<Word> words, WordBook wordBook){
         List<ListWord> listWords = words.stream()
-                .map(word -> new ListWord().setWord(word).setWordBook(wordBook))
+                .map(word -> new ListWord()
+                        .setId(new ListWordId()
+                                .setWordId(word.getId())
+                                .setWordBookId(wordBook.getId()))
+                        .setWord(word)
+                        .setWordBook(wordBook))
                 .toList();
-        return listWordRepository.saveAllListWord(listWords);
+        return listWordRepository.saveAll(listWords);
     }
 }

@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name="word")
+@Table(name="user_setting")
 public class UserSetting {
     // 设置ID
     @Id

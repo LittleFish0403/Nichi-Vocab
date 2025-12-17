@@ -34,7 +34,7 @@ public class WordServiceImpl implements WordService {
 
     @Override
     public List<Word> saveAllWords(List<Word> words) {
-        return wordRepository.saveAllWords(words);
+        return wordRepository.saveAll(words);
     }
 
     @Override

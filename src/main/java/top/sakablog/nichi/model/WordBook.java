@@ -32,7 +32,7 @@ public class WordBook {
     private String name;
 
     // 词书等级
-    @Column(name="level", nullable = false)
+    @Column(name="level", nullable = true)
     private String level;
 
     // 词书包含单词数量

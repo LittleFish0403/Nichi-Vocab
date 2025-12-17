@@ -22,6 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Embeddable
+@Table(name="list_word")
 public class ListWordId {
     // 词汇ID
     private Integer wordId;

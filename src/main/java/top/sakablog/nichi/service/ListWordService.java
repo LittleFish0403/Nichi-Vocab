@@ -30,7 +30,8 @@ public interface ListWordService {
     /**
      * 批量保存单词和单词本的关联
      *
-     * @param listWords ListWord对象列表
+     * @param words    单词对象列表
+     * @param wordBook 单词本对象
      * @return 保存后的ListWord对象列表
      */
     public List<ListWord> saveAllListWord(List<Word> words, WordBook wordBook);

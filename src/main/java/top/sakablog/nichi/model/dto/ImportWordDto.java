@@ -1,9 +1,7 @@
 package top.sakablog.nichi.model.dto;
 
 import com.opencsv.bean.CsvBindByName;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.Value;
+import lombok.*;
 import top.sakablog.nichi.model.Word;
 
 import java.io.Serializable;
@@ -11,20 +9,18 @@ import java.io.Serializable;
 /**
  * DTO for {@link top.sakablog.nichi.model.Word}
  */
-@Value
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ImportWordDto implements Serializable {
-    @CsvBindByName(column = "日文")
-    String japaneseWord;
-    @CsvBindByName(column = "假名")
-    String kanaReading;
-    @CsvBindByName(column = "中文")
-    String meaningCn;
-    @CsvBindByName(column = "类型")
-    Word.WordType wordType;
-    @CsvBindByName(column = "来源")
-    String source;
-
-
+    @CsvBindByName(column = "japanese_word")
+    public String japaneseWord;
+    @CsvBindByName(column = "kana_reading")
+    public String kanaReading;
+    @CsvBindByName(column = "meaning_cn")
+    public String meaningCn;
+    @CsvBindByName(column = "word_type")
+    public String wordType;
+    @CsvBindByName(column = "source")
+    public String source;
 }
