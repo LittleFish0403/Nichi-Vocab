@@ -14,8 +14,18 @@ import java.util.List;
  * @since 1.0.0
  * @version 1.0.1
  */public interface WordService {
-     public WordDto getAllWordByWordBookId(Long wordBookId);
 
+
+      //=== CRUD FIND ===//
+
+     /**
+      * 根据单词本ID查找对应单词
+      * @param wordBookId 单词本ID
+      * @return 单词DTO对象
+      */
+      public List<Word> findAllWordsByWordBookId(Long wordBookId);
+
+      //=== CRUD SAVE ===//
 
      /**
       * 保存单词

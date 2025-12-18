@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import top.sakablog.nichi.model.Word;
+import top.sakablog.nichi.model.enums.WordType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +48,7 @@ public class WordRepositoryIntegrationTest {
                 .setJapaneseWord("中国人")
                 .setKanaReading("ちゅうごくじん")
                 .setMeaningCn("中国人")
-                .setWordType(Word.WordType.NOUN_COMMON)
+                .setWordType(WordType.NOUN_COMMON)
                 .setSource("新标初_01");
 
         // 使用 entityManager.persistAndFlush() 确保数据立即写入内存数据库
@@ -67,14 +68,14 @@ public class WordRepositoryIntegrationTest {
                 .setJapaneseWord("アメリカ人")
                 .setKanaReading("アメリカじん")
                 .setMeaningCn("美国人")
-                .setWordType(Word.WordType.NOUN_COMMON)
+                .setWordType(WordType.NOUN_COMMON)
                 .setSource("新标初_01");
 
 
         Word w2 = new Word().setJapaneseWord("日本人")
                 .setKanaReading("にほんじん")
                 .setMeaningCn("日本人")
-                .setWordType(Word.WordType.NOUN_COMMON)
+                .setWordType(WordType.NOUN_COMMON)
                 .setSource("新标初_01");
 
         List<Word> newWords = Arrays.asList(w1, w2);

@@ -1,5 +1,6 @@
 package top.sakablog.nichi.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.sakablog.nichi.model.Word;
@@ -23,7 +24,7 @@ public class WordServiceImpl implements WordService {
     @Autowired
     private WordRepository wordRepository;
 
-    public WordDto getAllWordByWordBookId(Long wordBookId){
+    public List<Word> findAllWordsByWordBookId(Long wordBookId){
         return null;
     }
 
@@ -33,6 +34,7 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
+    @Transactional
     public List<Word> saveAllWords(List<Word> words) {
         return wordRepository.saveAll(words);
     }

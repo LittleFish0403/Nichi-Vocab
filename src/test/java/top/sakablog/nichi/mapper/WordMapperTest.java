@@ -6,6 +6,7 @@ import org.mapstruct.factory.Mappers;
 import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.dto.ImportWordDto;
 import top.sakablog.nichi.model.dto.WordDto;
+import top.sakablog.nichi.model.enums.WordType;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +36,7 @@ class WordMapperTest {
         word.setJapaneseWord("日本語");
         word.setKanaReading("にほんご");
         word.setMeaningCn("日语");
-        word.setWordType(Word.WordType.NOUN_COMMON);
+        word.setWordType(WordType.NOUN_COMMON);
         word.setSource("标准日本语");
 
         // When

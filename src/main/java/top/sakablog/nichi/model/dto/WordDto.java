@@ -3,6 +3,7 @@ package top.sakablog.nichi.model.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Value;
 import top.sakablog.nichi.model.Word;
+import top.sakablog.nichi.model.enums.WordType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,7 +21,7 @@ public class WordDto implements Serializable {
     String kanaReading;
     @NotNull
     String meaningCn;
-    Word.WordType wordType;
+    String wordType;
     String source;
 
     List<ListWordDto> listWords;
