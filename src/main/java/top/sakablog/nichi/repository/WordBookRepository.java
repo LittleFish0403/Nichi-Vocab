@@ -14,6 +14,6 @@ import top.sakablog.nichi.model.WordBook;
  * @since 1.0.0
  */
 @Repository
-public interface WordBookRepository extends JpaRepository<WordBook, Integer> {
+public interface WordBookRepository extends JpaRepository<WordBook, Long> {
 
 }

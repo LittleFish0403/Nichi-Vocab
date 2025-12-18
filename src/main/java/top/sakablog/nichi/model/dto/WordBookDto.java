@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Value
 public class WordBookDto implements Serializable {
-    Integer id;
+    Long id;
     String name;
     String level;
     Integer count;

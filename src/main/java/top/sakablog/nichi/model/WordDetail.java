@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 @Table(name="word_detail")
 public class WordDetail {
     @Id
-    private Integer id;
+    private Long id;
     private String detailed_notes;
     private String pitch_accent;
 }

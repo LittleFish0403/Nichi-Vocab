@@ -14,7 +14,7 @@ import java.util.List;
  * @since 1.0.0
  * @version 1.0.1
  */public interface WordService {
-     public WordDto getAllWordByWordBookId(Integer wordBookId);
+     public WordDto getAllWordByWordBookId(Long wordBookId);
 
 
      /**
@@ -40,5 +40,5 @@ import java.util.List;
       * @param word       单词对象
       * @return 保存是否成功
       */
-     public Boolean saveWordByWordBookId(Integer wordBookId, Word word);
+     public Boolean saveWordByWordBookId(Long wordBookId, Word word);
 }

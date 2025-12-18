@@ -25,7 +25,7 @@ public class WordBook {
     // 词书ID
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     // 词书名称
     @Column(name="book_name", nullable = false, unique = true)

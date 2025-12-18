@@ -25,7 +25,7 @@ public class User {
     // 用户ID
     @Id
     @Column(name="id", nullable = false, unique = true)
-    private Integer user_id;
+    private Long user_id;
 
     // 用户名
     @Column(nullable = false, unique = true, length = 50)

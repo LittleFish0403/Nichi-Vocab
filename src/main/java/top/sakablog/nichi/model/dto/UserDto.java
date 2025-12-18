@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 @Value
 public class UserDto implements Serializable {
-    Integer user_id;
+    Long user_id;
     String username;
     String password;
     String email;

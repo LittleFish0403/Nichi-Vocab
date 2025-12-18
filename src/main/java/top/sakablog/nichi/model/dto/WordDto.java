@@ -13,7 +13,7 @@ import java.util.List;
 @Value
 public class WordDto implements Serializable {
     @NotNull
-    Integer id;
+    Long id;
     @NotNull
     String japaneseWord;
     @NotNull

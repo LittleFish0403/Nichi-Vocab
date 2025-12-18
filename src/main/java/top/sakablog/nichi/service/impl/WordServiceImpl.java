@@ -23,7 +23,7 @@ public class WordServiceImpl implements WordService {
     @Autowired
     private WordRepository wordRepository;
 
-    public WordDto getAllWordByWordBookId(Integer wordBookId){
+    public WordDto getAllWordByWordBookId(Long wordBookId){
         return null;
     }
 
@@ -38,7 +38,7 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public Boolean saveWordByWordBookId(Integer wordBookId, Word word) {
+    public Boolean saveWordByWordBookId(Long wordBookId, Word word) {
 
         return null;
     }

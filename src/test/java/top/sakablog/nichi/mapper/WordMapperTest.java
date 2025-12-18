@@ -31,7 +31,7 @@ class WordMapperTest {
     void shouldMapWordToWordDto() {
         // Given
         Word word = new Word();
-        word.setId(100);
+        word.setId(100l);
         word.setJapaneseWord("日本語");
         word.setKanaReading("にほんご");
         word.setMeaningCn("日语");

@@ -24,7 +24,7 @@ public class UserSetting {
     // 设置ID
     @Id
     @Column(name="setting_id")
-    private Integer id;
+    private Long id;
 
     // 关联用户表
     @OneToOne

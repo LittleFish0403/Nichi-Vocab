@@ -16,5 +16,5 @@ import java.util.List;
  * @since 1.0.0
  */
 @Repository
-public interface ListWordRepository extends JpaRepository<ListWord, Integer> {
+public interface ListWordRepository extends JpaRepository<ListWord, Long> {
 }

@@ -25,8 +25,8 @@ import lombok.experimental.Accessors;
 @Table(name="list_word")
 public class ListWordId {
     // 词汇ID
-    private Integer wordId;
+    private Long wordId;
 
     // 词书ID
-    private Integer wordBookId;
+    private Long wordBookId;
 }

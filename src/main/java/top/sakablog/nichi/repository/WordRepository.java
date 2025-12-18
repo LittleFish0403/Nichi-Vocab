@@ -17,6 +17,6 @@ import java.util.List;
  * @since 1.0.0
  */
 @Repository
-public interface WordRepository extends JpaRepository<Word, Integer> {
+public interface WordRepository extends JpaRepository<Word, Long> {
 
 }

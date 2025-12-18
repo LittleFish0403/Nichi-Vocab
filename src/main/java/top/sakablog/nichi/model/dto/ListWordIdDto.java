@@ -9,6 +9,6 @@ import java.io.Serializable;
  */
 @Value
 public class ListWordIdDto implements Serializable {
-    Integer wordId;
-    Integer wordBookId;
+    Long wordId;
+    Long wordBookId;
 }

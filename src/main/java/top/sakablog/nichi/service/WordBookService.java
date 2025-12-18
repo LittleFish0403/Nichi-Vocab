@@ -47,7 +47,7 @@ public interface WordBookService {
      * @param newName    新名称
      * @return 修改是否成功
      */
-    public Boolean editWordBookName(Integer wordBookId, String newName);
+    public Boolean editWordBookName(Long wordBookId, String newName);
 
     /**
      * 根据单词本ID修改单词本描述
@@ -56,7 +56,7 @@ public interface WordBookService {
      * @param newDescription 新描述
      * @return 修改是否成功
      */
-    public Boolean editWordBookDescription(Integer wordBookId, String newDescription);
+    public Boolean editWordBookDescription(Long wordBookId, String newDescription);
 
     /**
      * 根据单词本ID删除单词本
@@ -64,5 +64,5 @@ public interface WordBookService {
      * @param wordBookId 单词本ID
      * @return 删除是否成功
      */
-    public Boolean deleteWordBook(Integer wordBookId);
+    public Boolean deleteWordBook(Long wordBookId);
 }

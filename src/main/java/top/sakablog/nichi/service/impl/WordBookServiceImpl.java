@@ -84,13 +84,13 @@ public class WordBookServiceImpl implements WordBookService {
     }
 
     @Override
-    public Boolean deleteWordBook(Integer wordBookId) {
+    public Boolean deleteWordBook(Long wordBookId) {
         wordBookRepository.deleteById(wordBookId);
         return true;
     }
 
     @Override
-    public Boolean editWordBookName(Integer wordBookId, String newName) {
+    public Boolean editWordBookName(Long wordBookId, String newName) {
         WordBook wordbook = wordBookRepository.findById(wordBookId).orElse(null);
         if (wordbook != null) {
             wordbook.setName(newName);
@@ -101,7 +101,7 @@ public class WordBookServiceImpl implements WordBookService {
     }
 
     @Override
-    public Boolean editWordBookDescription(Integer wordBookId, String newDescription) {
+    public Boolean editWordBookDescription(Long wordBookId, String newDescription) {
         WordBook wordbook = wordBookRepository.findById(wordBookId).orElse(null);
         if (wordbook != null) {
             wordbook.setDescription(newDescription);

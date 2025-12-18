@@ -54,7 +54,7 @@ public class WordBookServiceTest {
         // 1. Given: 模拟数据
         String testFileName = "标日初级单词表.csv";
 
-        WordBook mockBook = new WordBook().setId(1).setName(testFileName);
+        WordBook mockBook = new WordBook().setId(1l).setName(testFileName);
 
         List<ImportWordDto> mockImportDtos = new ArrayList<>();
         mockImportDtos.add(new ImportWordDto()); // 添加一个假数据

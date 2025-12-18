@@ -26,7 +26,7 @@ public class Word {
     // 单词ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     
     // 日语单词
     @Column(name="japanese_word", nullable = false)
