@@ -1,6 +1,7 @@
-package top.sakablog.nichi.exception;
+package top.sakablog.nichi.common.exception;
 
 import lombok.Getter;
+import top.sakablog.nichi.common.ResultCode;
 
 /**
  * SystemException

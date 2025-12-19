@@ -56,6 +56,7 @@ public class WordBookServiceIntegrationTest {
 
     @Test
     @DisplayName("集成测试：从CSV文件完整导入流程")
+    @Transactional
     void testImportWordBookFromCsvFlow() throws Exception {
         // 注意：请确保 src/main/resources 下有一个合法的 word_template.csv
         // 如果文件不存在，此测试会抛出 URI is not hierarchical 异常
