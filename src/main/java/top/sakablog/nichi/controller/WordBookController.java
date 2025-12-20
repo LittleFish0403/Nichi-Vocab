@@ -1,5 +1,8 @@
 package top.sakablog.nichi.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,7 @@ import top.sakablog.nichi.service.WordBookService;
  */
 @RestController
 @RequestMapping("/api/v1/wordbook")
+@Tag(name = "Word Book Management", description = "APIs for managing word books")
 public class WordBookController {
     @Autowired
     WordBookService wordBookService;
@@ -30,9 +34,11 @@ public class WordBookController {
     @Autowired
     WordBookMapper wordBookMapper;
 
-
     @PostMapping("/new")
-    public RestResponse<WordBookDto> createWordBook(String name, String description) {
+    @Operation(summary = "创建新词书", description = "创建一个新的词书，需提供名称和描述")
+    public RestResponse<WordBookDto> createWordBook(
+            @Parameter(description = "词书名字", required = true) String name,
+            @Parameter(description = "词书描述", required = true) String description) {
         WordBook wordBook;
         try {
             wordBook = wordBookService.newWordBook(name, description);

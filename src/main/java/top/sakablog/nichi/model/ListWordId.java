@@ -1,5 +1,6 @@
 package top.sakablog.nichi.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -23,6 +24,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Embeddable
 @Table(name="list_word")
+@Schema(description = "ListWord关联表的ID类，用于复合主键映射")
 public class ListWordId {
     // 词汇ID
     private Long wordId;

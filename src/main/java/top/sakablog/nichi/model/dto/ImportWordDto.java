@@ -1,6 +1,7 @@
 package top.sakablog.nichi.model.dto;
 
 import com.opencsv.bean.CsvBindByName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import top.sakablog.nichi.model.Word;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "用于导入单词的DTO")
 public class ImportWordDto implements Serializable {
     @CsvBindByName(column = "japanese_word")
     public String japaneseWord;

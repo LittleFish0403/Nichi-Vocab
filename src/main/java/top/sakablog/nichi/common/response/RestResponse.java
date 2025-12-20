@@ -1,5 +1,6 @@
 package top.sakablog.nichi.common.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import top.sakablog.nichi.common.ResultCode;
 
@@ -14,6 +15,7 @@ import top.sakablog.nichi.common.ResultCode;
  * @since 1.0.0
  */
 @Data
+@Schema(description = "统一API响应格式")
 public class RestResponse<T> {
     private Boolean success; // 是否成功 (true/false)
     private Integer code;    // 状态码 (如 200, 405)

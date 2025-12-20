@@ -1,5 +1,6 @@
 package top.sakablog.nichi.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,7 @@ import java.util.List;
 @Accessors(chain = true)
 @Entity
 @Table(name="word_book")
+@Schema(description = "词书实体，存储单词对应的词书")
 public class WordBook {
     // 词书ID
     @Id
