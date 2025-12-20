@@ -4,12 +4,14 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.sakablog.nichi.common.ResultCode;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.mapper.WordMapper;
 import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.WordBook;
 import top.sakablog.nichi.model.dto.ImportWordDto;
+import top.sakablog.nichi.model.dto.UpdateWordBookDto;
 import top.sakablog.nichi.repository.WordBookRepository;
 import top.sakablog.nichi.service.ListWordService;
 import top.sakablog.nichi.service.WordBookService;
@@ -21,6 +23,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * WordBookServiceImpl
@@ -79,6 +82,7 @@ public class WordBookServiceImpl implements WordBookService {
         try {
             importWords = csvUtils.beanBuilder(paths, ImportWordDto.class);
             log.info("CSV解析成功，获取到 {} 条原始数据", importWords.size());
+            savedWordBook.setCount(importWords.size());
         } catch (Exception e){
             log.error("CSV解析失败: {}", e.getMessage());
             throw new BusinessException("CSV解析失败，请核对CSV格式: " + e.getMessage());
@@ -114,10 +118,37 @@ public class WordBookServiceImpl implements WordBookService {
     }
 
     @Override
+    public WordBook updateWordBook(UpdateWordBookDto wordBook){
+        WordBook savedWordBook = wordBookRepository.findById(wordBook.getId())
+                .orElseThrow(() -> new BusinessException(ResultCode.PARAM_ERROR, "未找到对应的词书，ID：" + wordBook.getId()));
+        if (!Objects.equals(wordBook.getName(), "")) {
+            savedWordBook.setName(wordBook.getName());
+        }
+        if (!Objects.equals(wordBook.getLevel(), "")) {
+            savedWordBook.setLevel(wordBook.getLevel());
+        }
+        if (!Objects.equals(wordBook.getDescription(), "")) {
+            savedWordBook.setDescription(wordBook.getDescription());
+        }
+        return wordBookRepository.save(savedWordBook);
+    }
+
+    @Override
     public Boolean editWordBookName(Long wordBookId, String newName) {
         WordBook wordbook = wordBookRepository.findById(wordBookId).orElse(null);
         if (wordbook != null) {
             wordbook.setName(newName);
+            wordBookRepository.save(wordbook);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean editWordBookLevel(Long wordBookId, String Level) {
+        WordBook wordbook = wordBookRepository.findById(wordBookId).orElse(null);
+        if (wordbook != null) {
+            wordbook.setLevel(Level);
             wordBookRepository.save(wordbook);
             return true;
         }
