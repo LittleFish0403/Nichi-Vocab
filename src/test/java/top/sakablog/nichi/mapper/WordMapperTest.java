@@ -14,8 +14,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * WordMapperTest
  * <p>
- *
+ * 测试 WordMapper 的各种转换方法
  * </p>
  *
  * @author <a href="mailto:1041365078@qq.com">Sakana</a>

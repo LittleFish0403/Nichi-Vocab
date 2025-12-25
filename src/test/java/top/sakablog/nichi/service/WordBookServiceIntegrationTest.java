@@ -45,8 +45,7 @@ public class WordBookServiceIntegrationTest {
         assertEquals("新标日初级", savedBook.getName());
 
         // 2. 测试修改名称
-        Boolean isUpdated = wordBookService.editWordBookName(savedBook.getId(), "新标日高级");
-        assertTrue(isUpdated);
+        wordBookService.editWordBookName(savedBook.getId(), "新标日高级");
 
         // 3. 验证数据库中确实更新了
         WordBook updatedBook = wordBookRepository.findById(savedBook.getId()).orElse(null);
@@ -63,10 +62,7 @@ public class WordBookServiceIntegrationTest {
         String fileName = "标日初级单词表.csv";
 
         // 执行黑盒操作
-        Boolean result = wordBookService.importWordBookFromCsv(fileName);
-
-        // 验证结果
-        assertTrue(result);
+       wordBookService.importWordBookFromCsv(fileName);
 
         // 验证数据库中是否产生了数据
         List<WordBook> books = wordBookRepository.findAll();
