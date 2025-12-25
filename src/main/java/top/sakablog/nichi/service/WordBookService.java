@@ -55,33 +55,29 @@ public interface WordBookService {
      *
      * @param wordBookId 单词本ID
      * @param newName    新名称
-     * @return 修改是否成功
      */
-    public Boolean editWordBookName(Long wordBookId, String newName);
+    public void editWordBookName(Long wordBookId, String newName);
 
     /**
      * 根据单词本ID修改单词本描述
      *
      * @param wordBookId 单词本ID
      * @param newDescription 新描述
-     * @return 修改是否成功
      */
-    public Boolean editWordBookDescription(Long wordBookId, String newDescription);
+    public void editWordBookDescription(Long wordBookId, String newDescription);
 
     /**
      * 根据单词本ID修改单词本等级
      *
      * @param wordBookId 单词本ID
      * @param Level      新等级
-     * @return 修改是否成功
      */
-    public Boolean editWordBookLevel(Long wordBookId, String Level);
+    public void editWordBookLevel(Long wordBookId, String Level);
 
     /**
      * 根据单词本ID删除单词本
      *
      * @param wordBookId 单词本ID
-     * @return 删除是否成功
      */
-    public Boolean deleteWordBook(Long wordBookId);
+    public void deleteWordBook(Long wordBookId);
 }

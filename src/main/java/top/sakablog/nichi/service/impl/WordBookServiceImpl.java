@@ -104,6 +104,12 @@ public class WordBookServiceImpl implements WordBookService {
 
     @Override
     public WordBook newWordBook(String name, String description) {
+        if(name==null || name.trim().isEmpty()){
+            throw new BusinessException(ResultCode.PARAM_ERROR, "词本名称不能为空");
+        }
+        if(description==null || description.trim().isEmpty()){
+            description = "<NULL>";
+        }
         WordBook wordbook = new WordBook();
         wordbook.setName(name);
         wordbook.setDescription(description);
@@ -112,9 +118,16 @@ public class WordBookServiceImpl implements WordBookService {
     }
 
     @Override
-    public Boolean deleteWordBook(Long wordBookId) {
-        wordBookRepository.deleteById(wordBookId);
-        return true;
+    public void deleteWordBook(Long wordBookId) {
+        if (!wordBookRepository.existsById(wordBookId)) {
+            // 这里抛出业务异常，前端会收到“资源不存在”的提示
+            throw new BusinessException(ResultCode.RESOURCE_NOT_FOUND, "删除失败：词书 ID [" + wordBookId + "] 不存在");
+        }
+        try{
+            wordBookRepository.deleteById(wordBookId);
+        } catch (Exception e){
+            throw new SystemException( "删除词书失败，数据库异常", e);
+        }
     }
 
     @Override
@@ -134,36 +147,38 @@ public class WordBookServiceImpl implements WordBookService {
     }
 
     @Override
-    public Boolean editWordBookName(Long wordBookId, String newName) {
-        WordBook wordbook = wordBookRepository.findById(wordBookId).orElse(null);
-        if (wordbook != null) {
+    public void editWordBookName(Long wordBookId, String newName) {
+        WordBook wordbook = wordBookRepository.findById(wordBookId)
+                .orElseThrow(() -> new BusinessException(ResultCode.RESOURCE_NOT_FOUND, "未找到该单词本"));
+        try {
             wordbook.setName(newName);
             wordBookRepository.save(wordbook);
-            return true;
+        } catch (Exception e){
+            throw new SystemException("修改单词本名称失败，数据库异常", e);
         }
-        return false;
     }
 
     @Override
-    public Boolean editWordBookLevel(Long wordBookId, String Level) {
-        WordBook wordbook = wordBookRepository.findById(wordBookId).orElse(null);
-        if (wordbook != null) {
+    public void editWordBookLevel(Long wordBookId, String Level) {
+        WordBook wordbook = wordBookRepository.findById(wordBookId)
+                .orElseThrow(() -> new BusinessException(ResultCode.RESOURCE_NOT_FOUND, "未找到该单词本"));
+        try {
             wordbook.setLevel(Level);
             wordBookRepository.save(wordbook);
-            return true;
+        } catch (Exception e){
+            throw new SystemException("修改单词本等级失败，数据库异常", e);
         }
-        return false;
     }
 
     @Override
-    public Boolean editWordBookDescription(Long wordBookId, String newDescription) {
-        WordBook wordbook = wordBookRepository.findById(wordBookId).orElse(null);
-        if (wordbook != null) {
-            wordbook.setDescription(newDescription);
+    public void editWordBookDescription(Long wordBookId, String newDescription) {
+        WordBook wordbook = wordBookRepository.findById(wordBookId)
+                .orElseThrow(() -> new BusinessException(ResultCode.RESOURCE_NOT_FOUND, "未找到该单词本"));
+        try { wordbook.setDescription(newDescription);
             wordBookRepository.save(wordbook);
-            return true;
+        } catch (Exception e){
+            throw new SystemException("修改单词本描述失败，数据库异常", e);
         }
-        return false;
     }
 }
 

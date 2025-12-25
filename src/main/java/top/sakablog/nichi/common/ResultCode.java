@@ -23,7 +23,8 @@ public enum ResultCode {
     UNAUTHORIZED(401, "未认证（签名错误）"),
 
     NULL_POINT(200002, "空指针异常"),
-    PARAM_ERROR(200001, "参数错误");
+    PARAM_ERROR(200001, "参数错误"),
+    RESOURCE_NOT_FOUND(200003, "请求资源未找到");
 
     private final Integer code;
     private final String message;
