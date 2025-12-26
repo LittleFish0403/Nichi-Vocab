@@ -10,9 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.mapper.WordMapper;
@@ -60,10 +58,19 @@ public class WordBookServiceTest {
     private CsvUtils csvUtils;
 
     @Spy
-    private WordMapper wordMapper;
+    private WordMapper wordMapper = new WordMapperImpl();
 
     @InjectMocks
     private WordBookServiceImpl wordBookService;
+
+    @Captor
+    private ArgumentCaptor<List<Word>> wordListCaptor;
+
+    @Captor
+    private ArgumentCaptor<ListWord> listWordCaptor;
+
+    @Captor
+    private ArgumentCaptor<WordBook> wordBookCaptor;
 
 
     @Nested
@@ -240,7 +247,7 @@ public class WordBookServiceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"标日初级单词表.csv"})
-    @DisplayName("测试从CSV导入单词本：全流程逻辑验证")
+    @DisplayName("importWordBookFromCsv：全流程逻辑验证")
     void whenImportWordBookFromCsv_shouldImportWordBookFromCsvSuccessfully(String testFileName) throws Exception {
 
         WordBook mockSavedWordBook = new WordBook()
@@ -263,8 +270,8 @@ public class WordBookServiceTest {
 
         ImportWordDto mockSavedImportWordDto = wordMapper.toImportWordDto(mockSavedWord);
 
-        List<ImportWordDto> mockSavedWordBookList = new ArrayList<>();
-        mockSavedWordBookList.add(mockSavedImportWordDto);
+        List<ImportWordDto> mockSavedImportWordDtoList = new ArrayList<>();
+        mockSavedImportWordDtoList.add(mockSavedImportWordDto);
         List<Word> mockSavedWordList = new ArrayList<>();
         mockSavedWordList.add(mockSavedWord);
         List<ListWord> mockListWordList = new ArrayList<>();
@@ -274,19 +281,36 @@ public class WordBookServiceTest {
         when(wordBookRepository.save(any(WordBook.class))).thenReturn(mockSavedWordBook);
         when(wordService.saveAllWords(any())).thenReturn(mockSavedWordList);
         when(listWordService.saveAllListWord(anyList(), any(WordBook.class))).thenReturn(mockListWordList);
-        when(csvUtils.beanBuilder(any(Path.class), eq(ImportWordDto.class))).thenReturn(mockSavedWordBookList);
+        when(csvUtils.beanBuilder(any(Path.class), eq(ImportWordDto.class))).thenReturn(mockSavedImportWordDtoList);
 
         // 开始测试
         wordBookService.importWordBookFromCsv(testFileName);
 
         // 验证行为：各个依赖方法是否被调用
         verify(wordBookRepository, times(1)).save(any(WordBook.class));
-        verify(wordService, times(1)).saveAllWords(any());
-        verify(listWordService, times(1)).saveAllListWord(anyList(), any(WordBook.class));
+        verify(wordService, times(1)).saveAllWords(wordListCaptor.capture());
+        verify(listWordService, times(1)).saveAllListWord(anyList(), wordBookCaptor.capture());
         verify(csvUtils, times(1)).beanBuilder(any(Path.class), eq(ImportWordDto.class));
 
-        // 验证最终结果
-        assertEquals(1, mockSavedWordBook.getCount());
+        // 捕获参数
+        List<Word> capturedWordList = wordListCaptor.getValue();
 
+        // 验证最终结果
+        assertEquals(1, capturedWordList.size());
+        assertEquals("テスト", capturedWordList.get(0).getJapaneseWord());
+        assertEquals("测试", capturedWordList.get(0).getMeaningCn());
     }
+
+    @Test
+    @DisplayName("importWordBookFromCsv：文件不存在时抛出异常")
+    void whenImportWordBookFromCsvWithNonExistentFile_shouldThrowException() {
+        String invalidFileName = "不存在的文件.csv";
+        BusinessException exception = assertThrows(BusinessException.class, () -> {
+            wordBookService.importWordBookFromCsv(invalidFileName);
+        });
+
+        // 验证异常消息
+        assertEquals("文件不存在: " + invalidFileName, exception.getMessage());
+    }
+
 }

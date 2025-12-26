@@ -15,11 +15,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Schema(description = "用于导入单词的DTO")
 public class ImportWordDto implements Serializable {
-    @CsvBindByName(column = "japanese_word")
+    @CsvBindByName(column = "japanese_word", required = true)
     public String japaneseWord;
-    @CsvBindByName(column = "kana_reading")
+    @CsvBindByName(column = "kana_reading", required = true)
     public String kanaReading;
-    @CsvBindByName(column = "meaning_cn")
+    @CsvBindByName(column = "meaning_cn", required = true)
     public String meaningCn;
     @CsvBindByName(column = "word_type")
     public String wordType;

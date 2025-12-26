@@ -25,9 +25,8 @@ public interface WordBookService {
      * 从文件导入单词本
      *
      * @param fileName 文件路径 文件格式csv
-     * @return 导入是否成功
      */
-    public Boolean importWordBookFromCsv(String fileName) throws Exception;
+    public void importWordBookFromCsv(String fileName) throws Exception;
 
 
     /* 基础 CRUD 操作 */

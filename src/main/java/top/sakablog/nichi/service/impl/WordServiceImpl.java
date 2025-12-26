@@ -41,7 +41,6 @@ public class WordServiceImpl implements WordService {
 
     @Override
     public Boolean saveWordByWordBookId(Long wordBookId, Word word) {
-
         return null;
     }
 }

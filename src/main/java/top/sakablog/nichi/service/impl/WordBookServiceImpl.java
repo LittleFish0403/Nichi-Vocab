@@ -59,7 +59,7 @@ public class WordBookServiceImpl implements WordBookService {
      */
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public Boolean importWordBookFromCsv(String fileName){
+    public void importWordBookFromCsv(String fileName){
         Path paths;
         List<ImportWordDto> importWords;
         WordBook savedWordBook;
@@ -93,8 +93,6 @@ public class WordBookServiceImpl implements WordBookService {
             List<Word> words = wordMapper.toEntityListFromImportDto(importWords);
             List<Word> savedWords = wordService.saveAllWords(words);
             listWordService.saveAllListWord(savedWords, savedWordBook);
-
-            return true;
         } catch (Exception e) {
             log.error("单词保存失败: {}", e.getMessage());
             throw new SystemException("单词保存失败，数据库报错: " , e);
