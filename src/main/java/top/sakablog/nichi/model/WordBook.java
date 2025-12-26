@@ -1,5 +1,6 @@
 package top.sakablog.nichi.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,18 +22,19 @@ import java.util.List;
 @Accessors(chain = true)
 @Entity
 @Table(name="word_book")
+@Schema(description = "词书实体，存储单词对应的词书")
 public class WordBook {
     // 词书ID
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     // 词书名称
     @Column(name="book_name", nullable = false, unique = true)
     private String name;
 
     // 词书等级
-    @Column(name="level", nullable = false)
+    @Column(name="level", nullable = true)
     private String level;
 
     // 词书包含单词数量

@@ -1,10 +1,13 @@
 package top.sakablog.nichi.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import top.sakablog.nichi.model.enums.WordType;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,14 +24,15 @@ import java.util.List;
 @Accessors(chain = true)
 @Entity
 @Table(name="word")
+@Schema(description = "单词实体，存储词汇的基础信息、发音和词性")
 public class Word {
     // 单词ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     
     // 日语单词
-    @Column(name="japanese_word", nullable = false, unique = true)
+    @Column(name="japanese_word", nullable = false)
     private String japaneseWord;
 
     // 假名读音
@@ -39,26 +43,13 @@ public class Word {
     @Column(name="meaning_cn", nullable = false)
     private String meaningCn;
 
-    // 词性枚举
-    public enum WordType {
-        NOUN_PROPER,   //专有词
-        NOUN_COMMON,  //名词
-        VERB_1,  //动词1/2/3
-        VERB_2,
-        VERB_3,
-        ADJECTIVE, //形容词
-        ADVERB,   //副词
-        PRONOUN, //代词
-        PREPOSITION, //介词
-        CONJUNCTION, //连接词
-        INTERJECTION, //感叹词
-        IDIOMATIC_EXPRESSION //惯用语
-    }
-
     // 词性
     @Enumerated(EnumType.STRING)
     @Column(name="word_type", nullable = false)
     private WordType wordType;
+
+    @Column(nullable = true)
+    private String source;
 
     // 关联表
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)

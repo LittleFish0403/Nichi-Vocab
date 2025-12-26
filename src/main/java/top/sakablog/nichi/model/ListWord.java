@@ -1,5 +1,6 @@
 package top.sakablog.nichi.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name="list_word")
+@Schema(description = "存储词汇和词书之间的对应关系")
 public class ListWord {
     // 复合主键
     @EmbeddedId

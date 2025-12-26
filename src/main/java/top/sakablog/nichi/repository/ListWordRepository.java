@@ -1,6 +1,7 @@
 package top.sakablog.nichi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import top.sakablog.nichi.model.ListWord;
 
 import java.util.List;
@@ -14,6 +15,6 @@ import java.util.List;
  * @version 1.0.1
  * @since 1.0.0
  */
-public interface ListWordRepository extends JpaRepository<ListWord, Integer> {
-    List<ListWord> findListWordByWordBookId(Integer wordBookId);
+@Repository
+public interface ListWordRepository extends JpaRepository<ListWord, Long> {
 }
