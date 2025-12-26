@@ -2,6 +2,9 @@ package top.sakablog.nichi.utils;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.springframework.stereotype.Component;
+import top.sakablog.nichi.common.ResultCode;
+import top.sakablog.nichi.common.exception.BusinessException;
+
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -29,12 +32,17 @@ public class CsvUtils {
      * @return [List<T>]
      */
     public <T> List<T> beanBuilder(Reader reader, Class<T> clazz) {
-        return new CsvToBeanBuilder<T>(reader)
-                .withType(clazz)
-                .withIgnoreLeadingWhiteSpace(true)
-                .withOrderedResults(true)
-                .build()
-                .parse();
+        try {
+            return new CsvToBeanBuilder<T>(reader)
+                    .withType(clazz)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withOrderedResults(true)
+                    .build()
+                    .parse();
+        } catch (Exception e) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "csv解析失败：" + e.getMessage());
+        }
+
     }
 
     // 你的便捷方法：接受 Path，内部调用上面的方法

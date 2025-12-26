@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.model.dto.ImportWordDto;
 
 import java.io.IOException;
@@ -51,6 +52,24 @@ public class CsvUtilsTest {
             Assertions.assertEquals("ねこ", firstWord.getKanaReading());
             Assertions.assertEquals("cat", firstWord.getMeaningCn());
 
+        } catch (IOException e) {
+            Assertions.fail("测试过程中不应发生 IO 异常");
+        }
+    }
+
+    @Test
+    @DisplayName("beanBuilder：CSV格式错误时抛出异常")
+    void whenBeanBuilderCalledWithInvalidCsv_thenThrowException() {
+        // 模拟格式错误的csv文件
+        String invalidCsvLine = """
+                id,日文,kana_reading,meaning_cn,word_type,source
+                1,猫,ねこ,cat,NOUN,N5
+                2,犬,いぬ,dog,NOUN,N5""";
+        try (Reader reader = new StringReader(invalidCsvLine)) {
+            // 执行测试并断言异常
+            Assertions.assertThrows(BusinessException.class, () -> {
+                csvUtils.beanBuilder(reader, ImportWordDto.class);
+            }, "应抛出 IOException 异常");
         } catch (IOException e) {
             Assertions.fail("测试过程中不应发生 IO 异常");
         }
