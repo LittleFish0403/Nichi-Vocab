@@ -18,5 +18,6 @@ public class WordBookDto implements Serializable {
     String level;
     Integer count;
     String description;
-    List<ListWord> listWords;
+
+    List<ListWordDto> listWords;
 }

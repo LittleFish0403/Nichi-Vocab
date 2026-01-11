@@ -6,6 +6,7 @@ import top.sakablog.nichi.model.dto.UpdateWordBookDto;
 import top.sakablog.nichi.model.dto.WordBookDto;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * WordBookService
@@ -79,4 +80,18 @@ public interface WordBookService {
      * @param wordBookId 单词本ID
      */
     public void deleteWordBook(Long wordBookId);
+
+    /**
+     * 根据单词本ID获取单词本信息
+     *
+     * @param wordBookId 单词本ID
+     * @return 单词本实体
+     */
+    public WordBook getWordBookById(Long wordBookId);
+
+    /**
+     * 获取所有单词本信息
+     * @return 单词本实体列表
+     */
+    public List<WordBook> getAllWordBooks();
 }

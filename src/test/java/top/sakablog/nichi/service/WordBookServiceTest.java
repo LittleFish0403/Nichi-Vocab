@@ -242,6 +242,43 @@ public class WordBookServiceTest {
             verify(wordBookRepository, times(1)).findById(100L);
             verify(wordBookRepository, times(1)).save(any(WordBook.class));
         }
+
+        @Test
+        @DisplayName("getWordBookById：成功获取单词本信息")
+        void whenGetWordBookByIdCalled_shouldReturnWordBookSuccessfully() {
+            Long wordBookId = 1L;
+            WordBook mockWordBook = new WordBook()
+                    .setId(wordBookId)
+                    .setName("测试单词本")
+                    .setDescription("这是一个测试单词本")
+                    .setCount(10);
+            when(wordBookRepository.findById(wordBookId)).thenReturn(Optional.of(mockWordBook));
+            WordBook result = wordBookService.getWordBookById(wordBookId);
+            // 验证结果
+            assertNotNull(result);
+            assertEquals(wordBookId, result.getId());
+            assertEquals("测试单词本", result.getName());
+            assertEquals("这是一个测试单词本", result.getDescription());
+            assertEquals(10, result.getCount());
+            // 验证行为： findById 方法被调用一次
+            verify(wordBookRepository, times(1)).findById(wordBookId);
+        }
+
+        @Test
+        @DisplayName("getAllWordBooks：成功获取所有单词本信息")
+        void whenGetAllWordBooksCalled_shouldReturnAllWordBooksSuccessfully() {
+            List<WordBook> mockWordBookList = Arrays.asList(
+                    new WordBook().setId(1L).setName("单词本1").setDescription("描述1").setCount(5),
+                    new WordBook().setId(2L).setName("单词本2").setDescription("描述2").setCount(10)
+            );
+            when(wordBookRepository.findAll()).thenReturn(mockWordBookList);
+            List<WordBook> result = wordBookService.getAllWordBooks();
+            // 验证结果
+            assertNotNull(result);
+            assertEquals(2, result.size());
+            // 验证行为： findAll 方法被调用一次
+            verify(wordBookRepository, times(1)).findAll();
+        }
     }
 
 

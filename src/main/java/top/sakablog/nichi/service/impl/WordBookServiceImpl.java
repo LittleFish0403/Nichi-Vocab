@@ -178,5 +178,26 @@ public class WordBookServiceImpl implements WordBookService {
             throw new SystemException("修改单词本描述失败，数据库异常", e);
         }
     }
+
+    @Override
+    public WordBook getWordBookById(Long wordBookId) {
+       try{
+              return wordBookRepository.findById(wordBookId)
+                     .orElseThrow(() -> new BusinessException(ResultCode.RESOURCE_NOT_FOUND, "未找到该单词本"));
+         } catch (BusinessException e){
+              throw e;
+         } catch (Exception e){
+              throw new SystemException("获取单词本信息失败，数据库异常", e);
+       }
+    }
+
+    @Override
+    public List<WordBook> getAllWordBooks() {
+        try{
+            return wordBookRepository.findAll();
+        } catch (Exception e) {
+            throw new SystemException("获取所有单词本信息失败，数据库异常", e);
+        }
+    }
 }
 
