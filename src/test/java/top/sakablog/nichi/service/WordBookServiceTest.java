@@ -1,13 +1,10 @@
 package top.sakablog.nichi.service;
 
-import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.*;
@@ -19,11 +16,9 @@ import top.sakablog.nichi.model.ListWord;
 import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.WordBook;
 import top.sakablog.nichi.model.dto.ImportWordDto;
-import top.sakablog.nichi.model.dto.UpdateWordBookDto;
+import top.sakablog.nichi.model.dto.WordBookRequestDto;
 import top.sakablog.nichi.model.enums.WordType;
 import top.sakablog.nichi.repository.WordBookRepository;
-import top.sakablog.nichi.service.ListWordService;
-import top.sakablog.nichi.service.WordService;
 import top.sakablog.nichi.service.impl.WordBookServiceImpl;
 import top.sakablog.nichi.utils.CsvUtils;
 
@@ -159,7 +154,7 @@ public class WordBookServiceTest {
                     .setDescription("旧描述")
                     .setCount(0)
                     .setLevel("旧等级");
-            UpdateWordBookDto mockSavedResult2 = new UpdateWordBookDto(100L, "新名称", "新等级", "新描述");
+            WordBookRequestDto mockSavedResult2 = new WordBookRequestDto(100L, "新名称", "新等级", "新描述");
 
             // 打桩
             when(wordBookRepository.findById(100L)).thenReturn(Optional.of(mockSavedResult));

@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import top.sakablog.nichi.model.WordBook;
-import top.sakablog.nichi.model.dto.UpdateWordBookDto;
+import top.sakablog.nichi.model.dto.WordBookRequestDto;
 import top.sakablog.nichi.model.dto.WordBookDto;
 
 import java.util.List;
@@ -29,10 +29,10 @@ public interface WordBookMapper {
 
     List<WordBook> toWordBookList(List<WordBookDto> wordBookDtos);
 
-    WordBook toEntity(UpdateWordBookDto updateWordBookDto);
+    WordBook toEntity(WordBookRequestDto wordBookRequestDto);
 
-    UpdateWordBookDto toDto(WordBook wordBook);
+    WordBookRequestDto toDto(WordBook wordBook);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    WordBook partialUpdate(UpdateWordBookDto updateWordBookDto, @MappingTarget WordBook wordBook);
+    WordBook partialUpdate(WordBookRequestDto wordBookRequestDto, @MappingTarget WordBook wordBook);
 }

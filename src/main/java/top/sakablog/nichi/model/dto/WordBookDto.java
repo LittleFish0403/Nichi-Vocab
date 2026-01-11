@@ -2,7 +2,6 @@ package top.sakablog.nichi.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Value;
-import top.sakablog.nichi.model.ListWord;
 
 import java.io.Serializable;
 import java.util.List;

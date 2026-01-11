@@ -1,11 +1,8 @@
 package top.sakablog.nichi.service;
 
-import org.springframework.stereotype.Service;
 import top.sakablog.nichi.model.WordBook;
-import top.sakablog.nichi.model.dto.UpdateWordBookDto;
-import top.sakablog.nichi.model.dto.WordBookDto;
+import top.sakablog.nichi.model.dto.WordBookRequestDto;
 
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -48,7 +45,7 @@ public interface WordBookService {
      * @param wordBook 单词本实体
      * @return 更新后的单词本实体
      */
-    public WordBook updateWordBook(UpdateWordBookDto wordBook);
+    public WordBook updateWordBook(WordBookRequestDto wordBook);
 
     /**
      * 根据单词本ID修改单词本名称

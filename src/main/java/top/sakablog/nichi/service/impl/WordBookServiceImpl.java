@@ -11,7 +11,7 @@ import top.sakablog.nichi.mapper.WordMapper;
 import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.WordBook;
 import top.sakablog.nichi.model.dto.ImportWordDto;
-import top.sakablog.nichi.model.dto.UpdateWordBookDto;
+import top.sakablog.nichi.model.dto.WordBookRequestDto;
 import top.sakablog.nichi.repository.WordBookRepository;
 import top.sakablog.nichi.service.ListWordService;
 import top.sakablog.nichi.service.WordBookService;
@@ -129,7 +129,7 @@ public class WordBookServiceImpl implements WordBookService {
     }
 
     @Override
-    public WordBook updateWordBook(UpdateWordBookDto wordBook){
+    public WordBook updateWordBook(WordBookRequestDto wordBook){
         WordBook savedWordBook = wordBookRepository.findById(wordBook.getId())
                 .orElseThrow(() -> new BusinessException(ResultCode.PARAM_ERROR, "未找到对应的词书，ID：" + wordBook.getId()));
         if (!Objects.equals(wordBook.getName(), "")) {

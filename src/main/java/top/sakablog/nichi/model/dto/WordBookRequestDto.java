@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Value
 @Schema(description = "用于更新词书信息的DTO")
-public class UpdateWordBookDto implements Serializable {
+public class WordBookRequestDto implements Serializable {
     Long id;
     String name;
     String level;

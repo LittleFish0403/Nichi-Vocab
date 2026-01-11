@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.sakablog.nichi.common.response.RestResponse;
 import top.sakablog.nichi.mapper.WordBookMapper;
-import top.sakablog.nichi.mapper.WordMapper;
 import top.sakablog.nichi.model.WordBook;
-import top.sakablog.nichi.model.dto.UpdateWordBookDto;
+import top.sakablog.nichi.model.dto.WordBookRequestDto;
 import top.sakablog.nichi.model.dto.WordBookDto;
 import top.sakablog.nichi.service.WordBookService;
 
@@ -73,10 +72,10 @@ public class WordBookController {
     @PutMapping("/")
     @Operation(summary = "编辑词书", description = "根据词书ID编辑对应的词书信息")
     public RestResponse<WordBookDto> editWordBook(
-           @Parameter(description = "词书实体", required = true) UpdateWordBookDto updateWordBookDto) {
+           @Parameter(description = "词书实体", required = true) WordBookRequestDto wordBookRequestDto) {
         WordBook wordBook;
         try {
-            wordBook = wordBookService.updateWordBook(updateWordBookDto);
+            wordBook = wordBookService.updateWordBook(wordBookRequestDto);
         } catch (Exception e) {
             return RestResponse.fail(null, "Edit Word Book Failed: " + e.getMessage());
         }
