@@ -1,11 +1,7 @@
 package top.sakablog.nichi.mapper;
 
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
 import top.sakablog.nichi.model.WordBook;
-import top.sakablog.nichi.model.dto.WordBookRequestDto;
 import top.sakablog.nichi.model.dto.WordBookDto;
 
 import java.util.List;
@@ -28,11 +24,4 @@ public interface WordBookMapper {
     List<WordBookDto> toWordBookDtoList(List<WordBook> wordBooks);
 
     List<WordBook> toWordBookList(List<WordBookDto> wordBookDtos);
-
-    WordBook toEntity(WordBookRequestDto wordBookRequestDto);
-
-    WordBookRequestDto toDto(WordBook wordBook);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    WordBook partialUpdate(WordBookRequestDto wordBookRequestDto, @MappingTarget WordBook wordBook);
 }

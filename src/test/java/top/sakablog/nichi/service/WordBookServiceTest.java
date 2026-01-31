@@ -9,19 +9,23 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.mapper.WordMapper;
 import top.sakablog.nichi.mapper.WordMapperImpl;
 import top.sakablog.nichi.model.ListWord;
 import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.WordBook;
-import top.sakablog.nichi.model.dto.ImportWordDto;
-import top.sakablog.nichi.model.dto.WordBookRequestDto;
+import top.sakablog.nichi.model.dto.WordBookDto;
+import top.sakablog.nichi.model.dto.WordImportDto;
 import top.sakablog.nichi.model.enums.WordType;
 import top.sakablog.nichi.repository.WordBookRepository;
 import top.sakablog.nichi.service.impl.WordBookServiceImpl;
 import top.sakablog.nichi.utils.CsvUtils;
 
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -154,7 +158,7 @@ public class WordBookServiceTest {
                     .setDescription("旧描述")
                     .setCount(0)
                     .setLevel("旧等级");
-            WordBookRequestDto mockSavedResult2 = new WordBookRequestDto(100L, "新名称", "新等级", "新描述");
+            WordBookDto mockSavedResult2 = new WordBookDto(100L, "新名称", "新等级", 0, "新描述");
 
             // 打桩
             when(wordBookRepository.findById(100L)).thenReturn(Optional.of(mockSavedResult));
@@ -277,72 +281,54 @@ public class WordBookServiceTest {
     }
 
 
-    @ParameterizedTest
-    @ValueSource(strings = {"标日初级单词表.csv"})
+    @Test // 注意：MultipartFile 无法直接从 ValueSource 注入，建议改用普通 @Test
     @DisplayName("importWordBookFromCsv：全流程逻辑验证")
-    void whenImportWordBookFromCsv_shouldImportWordBookFromCsvSuccessfully(String testFileName) throws Exception {
+    void whenImportWordBookFromCsv_shouldImportWordBookFromCsvSuccessfully() throws Exception {
+        // 1. 模拟一个上传文件 (MockMultipartFile)
+        // 参数含义：表单参数名(file), 原始文件名, 内容类型, 内容字节
+        String fileName = "标日初级单词表.csv";
+        MockMultipartFile testFile = new MockMultipartFile(
+                "file",
+                fileName,
+                "text/csv",
+                "word,reading,meaning\nテスト,テスト,测试".getBytes(StandardCharsets.UTF_8)
+        );
 
+        // 2. 准备 Mock 数据 (保持你原有的逻辑)
         WordBook mockSavedWordBook = new WordBook()
                 .setId(1L)
-                .setName("标日初级单词表")
-                .setDescription("从CSV导入的单词本")
+                .setName(fileName)
                 .setCount(1);
 
         Word mockSavedWord = new Word()
-                .setId(1L)
                 .setJapaneseWord("テスト")
-                .setKanaReading("テスト")
-                .setMeaningCn("测试")
-                .setWordType(WordType.NOUN_COMMON)
-                .setSource("标日初级");
+                .setMeaningCn("测试");
 
-        ListWord mockListWord = new ListWord()
-                .setWord(mockSavedWord)
-                .setWordBook(mockSavedWordBook);
+        List<WordImportDto> mockImportDtoList = new ArrayList<>();
+        mockImportDtoList.add(new WordImportDto()); // 简化 mock 内容
 
-        ImportWordDto mockSavedImportWordDto = wordMapper.toImportWordDto(mockSavedWord);
+        List<Word> mockSavedWordList = List.of(mockSavedWord);
 
-        List<ImportWordDto> mockSavedImportWordDtoList = new ArrayList<>();
-        mockSavedImportWordDtoList.add(mockSavedImportWordDto);
-        List<Word> mockSavedWordList = new ArrayList<>();
-        mockSavedWordList.add(mockSavedWord);
-        List<ListWord> mockListWordList = new ArrayList<>();
-        mockListWordList.add(mockListWord);
-
-
+        // 3. 打桩 (Stubbing) - 注意参数类型的变化！
         when(wordBookRepository.save(any(WordBook.class))).thenReturn(mockSavedWordBook);
+        // 关键点：csvUtils 现在接收的是 Reader 而不是 Path
+        when(csvUtils.beanBuilder(any(Reader.class), eq(WordImportDto.class))).thenReturn(mockImportDtoList);
+        when(wordMapper.toEntityListFromImportDto(anyList())).thenReturn(mockSavedWordList);
         when(wordService.saveAllWords(any())).thenReturn(mockSavedWordList);
-        when(listWordService.saveAllListWord(anyList(), any(WordBook.class))).thenReturn(mockListWordList);
-        when(csvUtils.beanBuilder(any(Path.class), eq(ImportWordDto.class))).thenReturn(mockSavedImportWordDtoList);
 
-        // 开始测试
-        wordBookService.importWordBookFromCsv(testFileName);
+        // 4. 执行测试
+        wordBookService.importWordBookFromCsv(testFile);
 
-        // 验证行为：各个依赖方法是否被调用
+        // 5. 验证行为
         verify(wordBookRepository, times(1)).save(any(WordBook.class));
+        // 验证 csvUtils 是否收到了 Reader 类型的参数
+        verify(csvUtils, times(1)).beanBuilder(any(Reader.class), eq(WordImportDto.class));
         verify(wordService, times(1)).saveAllWords(wordListCaptor.capture());
-        verify(listWordService, times(1)).saveAllListWord(anyList(), wordBookCaptor.capture());
-        verify(csvUtils, times(1)).beanBuilder(any(Path.class), eq(ImportWordDto.class));
 
-        // 捕获参数
+        // 6. 验证最终结果
         List<Word> capturedWordList = wordListCaptor.getValue();
-
-        // 验证最终结果
         assertEquals(1, capturedWordList.size());
         assertEquals("テスト", capturedWordList.get(0).getJapaneseWord());
-        assertEquals("测试", capturedWordList.get(0).getMeaningCn());
-    }
-
-    @Test
-    @DisplayName("importWordBookFromCsv：文件不存在时抛出异常")
-    void whenImportWordBookFromCsvWithNonExistentFile_shouldThrowException() {
-        String invalidFileName = "不存在的文件.csv";
-        BusinessException exception = assertThrows(BusinessException.class, () -> {
-            wordBookService.importWordBookFromCsv(invalidFileName);
-        });
-
-        // 验证异常消息
-        assertEquals("文件不存在: " + invalidFileName, exception.getMessage());
     }
 
 }

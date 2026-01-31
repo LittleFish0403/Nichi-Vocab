@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.dto.ImportWordDto;
+import top.sakablog.nichi.model.dto.WordImportDto;
 import top.sakablog.nichi.model.dto.WordDto;
 import top.sakablog.nichi.model.enums.WordType;
 
@@ -52,10 +52,10 @@ class WordMapperTest {
     }
 
     @Test
-    @DisplayName("测试 ImportWordDto 转换成 Entity")
+    @DisplayName("测试 WordImportDto 转换成 Entity")
     void shouldMapImportDtoToEntity() {
         // Given
-        ImportWordDto importDto = new ImportWordDto();
+        WordImportDto importDto = new WordImportDto();
         importDto.setJapaneseWord("食べる");
         importDto.setKanaReading("たべる");
         importDto.setMeaningCn("吃");

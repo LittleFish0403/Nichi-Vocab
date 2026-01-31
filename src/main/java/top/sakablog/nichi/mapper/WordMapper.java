@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.dto.ImportWordDto;
+import top.sakablog.nichi.model.dto.WordImportDto;
 import top.sakablog.nichi.model.dto.WordDto;
 import top.sakablog.nichi.model.enums.WordType;
 
@@ -26,7 +26,7 @@ public interface WordMapper {
      * Entity转DTO
      */
     WordDto toDto(Word word);
-    ImportWordDto toImportWordDto(Word word);
+    WordImportDto toImportWordDto(Word word);
 
 
     /**
@@ -35,15 +35,15 @@ public interface WordMapper {
     @Mapping(target = "wordType", source = "wordType", qualifiedByName = "mapToWordType")
     Word toEntityFromDto(WordDto wordDto);
     @Mapping(target = "wordType", source = "wordType", qualifiedByName = "mapToWordType")
-    Word toEntityFromImportDto(ImportWordDto importWordDto);
+    Word toEntityFromImportDto(WordImportDto wordImportDto);
 
     /**
      * ListEntity转ListDTO 和 ListDTO转ListEntity
      */
     List<WordDto> toDtoList(List<Word> wordList);
-    List<ImportWordDto> toImportWordDtoList(List<Word> wordList);
+    List<WordImportDto> toImportWordDtoList(List<Word> wordList);
     List<Word> toEntityListFromDto(List<WordDto> wordDtoList);
-    List<Word> toEntityListFromImportDto(List<ImportWordDto> importWord);
+    List<Word> toEntityListFromImportDto(List<WordImportDto> importWord);
 
     @Named("mapToWordType")
     default WordType mapToWordType(String typeStr) {

@@ -25,6 +25,4 @@ public class WordDto implements Serializable {
     String meaningCn;
     String wordType;
     String source;
-
-    List<ListWordDto> listWords;
 }
