@@ -18,35 +18,23 @@ import lombok.experimental.Accessors;
 @Setter
 @Entity
 @Accessors(chain = true)
-@Table(name = "user", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_user_id_username_email", columnNames = {"id", "username", "email"})
-})
+@Table(name = "user")
 public class User {
     // 用户ID
     @Id
     @Column(name="id", nullable = false, unique = true)
+    @GeneratedValue
     private Long user_id;
 
-    // 用户名
-    @Column(nullable = false, unique = true, length = 50)
-    private String username;
+    // 电话号码
+    @Column(nullable = true, unique = true, length = 50)
+    private String phone;
 
     // 密码
     @Column(nullable = false, length = 50)
     private String password;
 
-    // 邮箱
-    @Column(nullable = false, unique = true, length = 50)
-    private String email;
-
-    // 电话号码
-    @Column(nullable = false, unique = true, length = 50)
-    private String phone;
-
-    // 头像URL
-    private String avatarUrl;
-
     // 关联用户设置表
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
-    private UserSetting userSetting;
+    private UserInfo userInfo;
 }
