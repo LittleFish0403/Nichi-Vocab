@@ -24,7 +24,9 @@ public enum ResultCode {
 
     NULL_POINT(200002, "空指针异常"),
     PARAM_ERROR(200001, "参数错误"),
-    RESOURCE_NOT_FOUND(200003, "请求资源未找到");
+    RESOURCE_NOT_FOUND(200003, "请求资源未找到"),
+
+    UNKNOWN_ERROR(9999, "未知错误");
 
     private final Integer code;
     private final String message;

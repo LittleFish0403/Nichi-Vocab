@@ -3,6 +3,7 @@ package top.sakablog.nichi.service.impl;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.dto.WordDto;
 import top.sakablog.nichi.repository.WordRepository;
@@ -24,8 +25,13 @@ public class WordServiceImpl implements WordService {
     @Autowired
     private WordRepository wordRepository;
 
+    @Override
     public List<Word> findAllWordsByWordBookId(Long wordBookId){
-        return null;
+        try {
+            return wordRepository.findWordsByWordBookId(wordBookId);
+        } catch (Exception e) {
+            throw new SystemException("未找到对应单词本的单词列表");
+        }
     }
 
     @Override

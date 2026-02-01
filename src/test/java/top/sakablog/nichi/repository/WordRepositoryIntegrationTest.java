@@ -1,11 +1,15 @@
 package top.sakablog.nichi.repository;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import top.sakablog.nichi.model.ListWord;
+import top.sakablog.nichi.model.ListWordId;
 import top.sakablog.nichi.model.Word;
+import top.sakablog.nichi.model.WordBook;
 import top.sakablog.nichi.model.enums.WordType;
 
 import java.util.Arrays;
@@ -85,6 +89,44 @@ public class WordRepositoryIntegrationTest {
 
         // 3. 验证数据库中的总记录数（原有一条 + 新增两条 = 三条）
         assertThat(wordRepository.count()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("测试根据单词本ID查询单词列表 (修复版)")
+    void whenFindWordsByWordBookId_thenReturnWordList() {
+        // 1. 持久化 Word (不要手动 set ID，让数据库生成)
+        Word w1 = new Word()
+                .setJapaneseWord("アメリカ人")
+                .setKanaReading("アメリカじん")
+                .setMeaningCn("美国人")
+                .setWordType(WordType.NOUN_COMMON)
+                .setSource("新标初_01");
+        w1 = entityManager.persistFlushFind(w1);
+
+        // 2. 持久化 WordBook
+        WordBook wb = new WordBook()
+                .setName("测试单词本")
+                .setDescription("用于测试的单词本")
+                .setCount(1);
+        wb = entityManager.persistFlushFind(wb);
+
+        // 3. 建立并持久化中间表关联
+        ListWord savedListWord = new ListWord()
+                .setId(new ListWordId().setWordId(w1.getId()).setWordBookId(wb.getId()))
+                .setWord(w1)
+                .setWordBook(wb);
+        entityManager.persist(savedListWord);
+
+        // 强制同步到 H2 内存数据库
+        entityManager.flush();
+        entityManager.clear(); // 清理一级缓存，确保接下来的查询是查数据库而不是查内存
+
+        // 4. 执行查询
+        // 建议 Repository 方法名改为 findWordsByWordBookId (注意大小写规范)
+        List<Word> words = wordRepository.findWordsByWordBookId(wb.getId());
+
+        // 5. 验证
+        assertThat(words.get(0).getJapaneseWord()).isEqualTo("アメリカ人");
     }
 
 }

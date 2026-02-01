@@ -1,8 +1,10 @@
 package top.sakablog.nichi.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import top.sakablog.nichi.model.WordBook;
-import top.sakablog.nichi.model.dto.WordBookRequestDto;
+import top.sakablog.nichi.model.dto.WordBookDto;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -22,9 +24,10 @@ public interface WordBookService {
     /**
      * 从文件导入单词本
      *
-     * @param fileName 文件路径 文件格式csv
+     * @param file csv文件
+     * @return 导入的单词本实体
      */
-    public void importWordBookFromCsv(String fileName) throws Exception;
+    public WordBook importWordBookFromCsv(MultipartFile file) throws Exception;
 
 
     /* 基础 CRUD 操作 */
@@ -45,7 +48,7 @@ public interface WordBookService {
      * @param wordBook 单词本实体
      * @return 更新后的单词本实体
      */
-    public WordBook updateWordBook(WordBookRequestDto wordBook);
+    public WordBook updateWordBook(WordBookDto wordBook);
 
     /**
      * 根据单词本ID修改单词本名称

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import top.sakablog.nichi.common.exception.BusinessException;
-import top.sakablog.nichi.model.dto.ImportWordDto;
+import top.sakablog.nichi.model.dto.WordImportDto;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -40,14 +40,14 @@ public class CsvUtilsTest {
         try (Reader reader = new StringReader(mockCsvLine)) {
 
             // 执行测试
-            List<ImportWordDto> result = csvUtils.beanBuilder(reader, ImportWordDto.class);
+            List<WordImportDto> result = csvUtils.beanBuilder(reader, WordImportDto.class);
 
             // 断言验证
             Assertions.assertNotNull(result);
             Assertions.assertEquals(2, result.size(), "应该解析出 2 条数据");
 
             // 验证第一条数据内容
-            ImportWordDto firstWord = result.get(0);
+            WordImportDto firstWord = result.get(0);
             Assertions.assertEquals("猫", firstWord.getJapaneseWord());
             Assertions.assertEquals("ねこ", firstWord.getKanaReading());
             Assertions.assertEquals("cat", firstWord.getMeaningCn());
@@ -68,7 +68,7 @@ public class CsvUtilsTest {
         try (Reader reader = new StringReader(invalidCsvLine)) {
             // 执行测试并断言异常
             Assertions.assertThrows(BusinessException.class, () -> {
-                csvUtils.beanBuilder(reader, ImportWordDto.class);
+                csvUtils.beanBuilder(reader, WordImportDto.class);
             }, "应抛出 IOException 异常");
         } catch (IOException e) {
             Assertions.fail("测试过程中不应发生 IO 异常");

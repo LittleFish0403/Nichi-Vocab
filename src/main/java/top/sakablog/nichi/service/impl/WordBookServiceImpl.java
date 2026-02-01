@@ -4,14 +4,15 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import top.sakablog.nichi.common.ResultCode;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.mapper.WordMapper;
 import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.WordBook;
-import top.sakablog.nichi.model.dto.ImportWordDto;
-import top.sakablog.nichi.model.dto.WordBookRequestDto;
+import top.sakablog.nichi.model.dto.WordBookDto;
+import top.sakablog.nichi.model.dto.WordImportDto;
 import top.sakablog.nichi.repository.WordBookRepository;
 import top.sakablog.nichi.service.ListWordService;
 import top.sakablog.nichi.service.WordBookService;
@@ -19,7 +20,11 @@ import top.sakablog.nichi.service.WordService;
 import top.sakablog.nichi.utils.CsvUtils;
 
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -59,46 +64,53 @@ public class WordBookServiceImpl implements WordBookService {
      */
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public void importWordBookFromCsv(String fileName){
-        Path paths;
-        List<ImportWordDto> importWords;
+    public WordBook importWordBookFromCsv(MultipartFile file) { // 1. 参数改为 MultipartFile
+        List<WordImportDto> importWords;
         WordBook savedWordBook;
 
+        // 获取原始文件名作为单词本名称
+        String originalFilename = file.getOriginalFilename();
+
         try {
-            log.info("开始导入文件: {}", fileName);
-            savedWordBook = newWordBook(fileName, "<NULL>");
-            // 1. 获取CSV文件路径
-            URL resource = ClassLoader.getSystemResource(fileName);
-            if (resource == null) throw new BusinessException("文件不存在: " + fileName);
-            paths = Paths.get(resource.toURI());
+            log.info("开始导入上传的文件: {}", originalFilename);
+            if (file.isEmpty()) throw new BusinessException("上传的文件为空");
+
+            // 2. 初始化单词本对象
+            savedWordBook = newWordBook(originalFilename, "<NULL>");
+
         } catch (BusinessException e){
             throw e;
         } catch (Exception e) {
-            log.error("导入单词本失败: {}", e.getMessage());
-            throw new SystemException("文件路径错误，解析失败：" + fileName);
+            log.error("初始化单词本失败: {}", e.getMessage());
+            throw new SystemException("初始化单词本失败");
         }
 
-        // 2. 调用通用的 CSV 解析工具
-        try {
-            importWords = csvUtils.beanBuilder(paths, ImportWordDto.class);
+        // 3. 调用 CSV 工具解析文件流
+        try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+            // 注意：这里需要你的 csvUtils.beanBuilder 支持 Reader 类型参数
+            importWords = csvUtils.beanBuilder(reader, WordImportDto.class);
+
             log.info("CSV解析成功，获取到 {} 条原始数据", importWords.size());
             savedWordBook.setCount(importWords.size());
         } catch (Exception e){
             log.error("CSV解析失败: {}", e.getMessage());
-            throw new BusinessException("CSV解析失败，请核对CSV格式: " + e.getMessage());
+            throw new BusinessException("CSV解析失败，请核对CSV格式或编码(建议UTF-8): " + e.getMessage());
         }
 
-        // 3. 映射为Word实体并保存到数据库
-        try{
+        // 4. 映射为Word实体并保存到数据库
+        try {
             List<Word> words = wordMapper.toEntityListFromImportDto(importWords);
             List<Word> savedWords = wordService.saveAllWords(words);
             listWordService.saveAllListWord(savedWords, savedWordBook);
         } catch (Exception e) {
             log.error("单词保存失败: {}", e.getMessage());
-            throw new SystemException("单词保存失败，数据库报错: " , e);
+            throw new SystemException("单词保存失败，数据库报错: ", e);
         }
-    }
 
+        // 5. 返回保存的单词本实体
+        log.info("单词本导入成功: {}", savedWordBook.getName());
+        return savedWordBook;
+    }
 
     @Override
     public WordBook newWordBook(String name, String description) {
@@ -129,7 +141,7 @@ public class WordBookServiceImpl implements WordBookService {
     }
 
     @Override
-    public WordBook updateWordBook(WordBookRequestDto wordBook){
+    public WordBook updateWordBook(WordBookDto wordBook){
         WordBook savedWordBook = wordBookRepository.findById(wordBook.getId())
                 .orElseThrow(() -> new BusinessException(ResultCode.PARAM_ERROR, "未找到对应的词书，ID：" + wordBook.getId()));
         if (!Objects.equals(wordBook.getName(), "")) {
