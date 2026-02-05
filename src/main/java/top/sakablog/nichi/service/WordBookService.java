@@ -27,7 +27,7 @@ public interface WordBookService {
      * @param file csv文件
      * @return 导入的单词本实体
      */
-    public WordBook importWordBookFromCsv(MultipartFile file) throws Exception;
+    public WordBook importWordBookFromCsv(MultipartFile file);
 
 
     /* 基础 CRUD 操作 */

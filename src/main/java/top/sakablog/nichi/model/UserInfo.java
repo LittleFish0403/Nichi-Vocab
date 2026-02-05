@@ -25,9 +25,9 @@ public class UserInfo {
     @Column(name="info_id")
     private Long id;
 
-    // 用户名
+    // 电话号码
     @Column(nullable = true, unique = true, length = 50)
-    private String username;
+    private String phone;
 
     // 邮箱
     @Column(nullable = true, unique = true, length = 50)
@@ -36,9 +36,4 @@ public class UserInfo {
     // 头像URL
     @Column(nullable = true, unique = true, length = 100)
     private String avatarUrl;
-
-    // 关联用户表
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
-    private User user;
 }

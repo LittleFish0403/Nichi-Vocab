@@ -27,4 +27,9 @@ public class SystemException extends RuntimeException {
         super(message, cause);
         this.code = ResultCode.SYSTEM_ERROR.getCode();
     }
+
+    public SystemException(ResultCode resultCode) {
+        super(resultCode.getMessage());
+        this.code = resultCode.getCode();
+    }
 }

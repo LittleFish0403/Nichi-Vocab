@@ -3,6 +3,8 @@ package top.sakablog.nichi.common.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import top.sakablog.nichi.common.ResultCode;
+import top.sakablog.nichi.common.exception.BusinessException;
+import top.sakablog.nichi.common.exception.SystemException;
 
 /**
  * RestResponse
@@ -27,6 +29,13 @@ public class RestResponse<T> {
         this.success = success;
         this.code = resultCode.getCode();
         this.message = resultCode.getMessage();
+        this.data = data;
+    }
+
+    private RestResponse(Boolean success, Integer resultCode, T data, String message) {
+        this.success = success;
+        this.code = resultCode;
+        this.message = message;
         this.data = data;
     }
 
@@ -61,5 +70,13 @@ public class RestResponse<T> {
         RestResponse<T> response = new RestResponse<>(false, resultCode, null);
         response.setMessage(customMessage);
         return response;
+    }
+
+    public static <T> RestResponse<T> fail(BusinessException e) {
+        return new RestResponse<>(false, e.getCode(), null, e.getMessage());
+    }
+
+    public static <T> RestResponse<T> fail(SystemException e) {
+        return new RestResponse<>(false, e.getCode(), null, e.getMessage());
     }
 }

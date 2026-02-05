@@ -26,15 +26,23 @@ public class User {
     @GeneratedValue
     private Long user_id;
 
-    // 电话号码
-    @Column(nullable = true, unique = true, length = 50)
-    private String phone;
+    // 用户名
+    @Column(nullable = false, unique = true, length = 50)
+    private String username;
 
     // 密码
     @Column(nullable = false, length = 50)
     private String password;
 
-    // 关联用户设置表
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
-    private UserInfo userInfo;
+    // 电话号码
+    @Column(nullable = true, unique = true, length = 50)
+    private String phone;
+
+    // 邮箱
+    @Column(nullable = true, unique = true, length = 50)
+    private String email;
+
+    // 头像URL
+    @Column(nullable = true, unique = false, length = 100)
+    private String avatarUrl;
 }

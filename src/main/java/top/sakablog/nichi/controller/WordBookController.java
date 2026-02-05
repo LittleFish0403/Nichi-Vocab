@@ -70,12 +70,8 @@ public class WordBookController {
     @Operation(summary = "删除词书", description = "根据词书ID删除对应的词书")
     public RestResponse<Void> deleteWordBook(@PathVariable Long wordBookId) {
         Boolean result;
-        try {
-             wordBookService.deleteWordBook(wordBookId);
-            return RestResponse.success(null);
-        } catch (Exception e) {
-            return RestResponse.fail(null, "Delete Word Book Failed: " + e.getMessage());
-        }
+        wordBookService.deleteWordBook(wordBookId);
+        return RestResponse.success(null);
     }
 
     /**
@@ -150,19 +146,12 @@ public class WordBookController {
     public RestResponse<WordBookDto> importCsvWordBook(
             @RequestParam("file") MultipartFile csvFile
     ){
+        System.out.println("Importing CSV Word Book...");
         if(csvFile==null || csvFile.isEmpty()){
             return RestResponse.fail(ResultCode.RESOURCE_NOT_FOUND, "Import Failed: CSV file is empty");
         }
 
-        try{
-            WordBook wordBook = wordBookService.importWordBookFromCsv(csvFile);
-            return RestResponse.success(wordBookMapper.toWordBookDto(wordBook));
-        } catch (SystemException e){
-            return RestResponse.fail(ResultCode.SYSTEM_ERROR, "Import Failed: " + e.getMessage());
-        } catch (BusinessException e){
-            return RestResponse.fail(ResultCode.BUSINESS_ERROR, "Import Failed: " + e.getMessage());
-        } catch (Exception e){
-            return RestResponse.fail(ResultCode.UNKNOWN_ERROR, "Import Failed: Unknown error occurred - " + e.getMessage());
-        }
+        WordBook wordBook = wordBookService.importWordBookFromCsv(csvFile);
+        return RestResponse.success(wordBookMapper.toWordBookDto(wordBook));
     }
 }
