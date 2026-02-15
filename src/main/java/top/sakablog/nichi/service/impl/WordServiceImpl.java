@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.sakablog.nichi.common.exception.SystemException;
+import top.sakablog.nichi.model.UserWordBookRelation;
 import top.sakablog.nichi.model.Word;
 import top.sakablog.nichi.model.dto.WordDto;
 import top.sakablog.nichi.repository.WordRepository;
@@ -46,7 +47,13 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public Boolean saveWordByWordBookId(Long wordBookId, Word word) {
+    public Word saveWordByWordBookId(Long wordBookId, Word word) {
         return null;
+    }
+
+    @Override
+    public Word getWordById(Long wordId){
+        return wordRepository.findById(wordId)
+                .orElseThrow(() -> new SystemException("未找到对应ID的单词，ID: " + wordId));
     }
 }

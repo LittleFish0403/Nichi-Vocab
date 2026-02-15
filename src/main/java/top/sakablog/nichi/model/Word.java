@@ -54,4 +54,5 @@ public class Word {
     // 关联表
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ListWord> listWords;
+
 }

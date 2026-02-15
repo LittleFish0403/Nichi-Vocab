@@ -94,4 +94,9 @@ public interface WordBookService {
      * @return 单词本实体列表
      */
     public List<WordBook> getAllWordBooks();
+
+    /**
+     * 判断单词本是否存在
+     */
+    public boolean existsByWordBookId(Long wordBookId);
 }

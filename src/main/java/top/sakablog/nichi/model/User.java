@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * User Entity
  * <p>
@@ -45,4 +47,8 @@ public class User {
     // 头像URL
     @Column(nullable = true, unique = false, length = 100)
     private String avatarUrl;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserInfo userInfo;
+
 }

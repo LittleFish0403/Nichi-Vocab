@@ -7,6 +7,7 @@ import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.User;
 import top.sakablog.nichi.model.UserInfo;
+import top.sakablog.nichi.repository.UserInfoRepository;
 import top.sakablog.nichi.repository.UserRepository;
 import top.sakablog.nichi.service.UserService;
 
@@ -26,13 +27,21 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
     @Override
     public User createUser(String name, String password) {
         try {
+            UserInfo userInfo = new UserInfo()
+                    .setSelectedWordBook(null);
             User user = new User()
                     .setUsername(name)
                     .setPassword(password)
-                    .setAvatarUrl("/avatar/default.jpg");
+                    .setAvatarUrl("/avatar/default.jpg")
+                    .setUserInfo(userInfo);
+            userInfo.setUser(user);
+            userInfoRepository.save(userInfo);
             return userRepository.save(user);
         } catch (SystemException e) {
             log.error("创建用户失败: {}", e.getMessage());
@@ -104,6 +113,19 @@ public class UserServiceImpl implements UserService {
             return existingUser;
         } catch (Exception e){
             log.error("更新用户失败: {}", e.getMessage());
+            throw new SystemException(e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean existsByUserId(Long userId) {
+        try{
+            if (userId == null) {
+                throw new BusinessException("用户ID不能为空");
+            }
+            return userRepository.existsById(userId);
+        } catch (Exception e){
+            log.error("检查用户ID是否存在失败: {}", e.getMessage());
             throw new SystemException(e.getMessage());
         }
     }

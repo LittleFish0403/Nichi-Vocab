@@ -211,5 +211,17 @@ public class WordBookServiceImpl implements WordBookService {
             throw new SystemException("获取所有单词本信息失败，数据库异常", e);
         }
     }
+
+    @Override
+    public boolean existsByWordBookId(Long wordBookId){
+        try {
+            if (wordBookId == null) {
+                throw new BusinessException("请输入有效的词书ID");
+            }
+            return wordBookRepository.existsById(wordBookId);
+        } catch (Exception e) {
+            throw new SystemException("数据库查询出现问题", e);
+        }
+    }
 }
 

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * UserInfo Entity
  * <p>
@@ -22,18 +24,17 @@ import lombok.experimental.Accessors;
 public class UserInfo {
     // 设置ID
     @Id
-    @Column(name="info_id")
-    private Long id;
+    @Column(name="user_id", insertable=false, updatable=false)
+    private Long user_id;
 
-    // 电话号码
-    @Column(nullable = true, unique = true, length = 50)
-    private String phone;
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserWordBookRelation selectedWordBook;
 
-    // 邮箱
-    @Column(nullable = true, unique = true, length = 50)
-    private String email;
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    // 头像URL
-    @Column(nullable = true, unique = true, length = 100)
-    private String avatarUrl;
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UserWordBookRelation> userWordBookRelations;
 }

@@ -36,4 +36,9 @@ public interface UserService {
      * 更新用户信息
      */
     User updateUser(User user);
+
+    /**
+     * 判断userid是否存在
+     */
+    boolean existsByUserId(Long userId);
 }

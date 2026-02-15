@@ -1,7 +1,6 @@
 package top.sakablog.nichi.service;
 
 import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.dto.WordDto;
 
 import java.util.List;
 
@@ -50,5 +49,12 @@ import java.util.List;
       * @param word       单词对象
       * @return 保存是否成功
       */
-     public Boolean saveWordByWordBookId(Long wordBookId, Word word);
+     public Word saveWordByWordBookId(Long wordBookId, Word word);
+
+    /**
+     * 根据单词ID获取单词
+     * @param wordId 单词ID
+     * @return 单词对象
+     */
+    Word getWordById(Long wordId);
 }

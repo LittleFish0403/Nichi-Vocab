@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public RestResponse<Object> handleBusinessException(BusinessException e) {
         // 返回你定义的标准响应格式，比如 code=400
+        e.printStackTrace();
         return RestResponse.fail(e);
     }
 
@@ -30,18 +31,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SystemException.class)
     public RestResponse<Object> handleBusinessException(SystemException e) {
         // 返回你定义的标准响应格式，比如 code=400
+        e.printStackTrace();
         return RestResponse.fail(e);
     }
 
     // 捕获Sa-Token的未登录异常
     @ExceptionHandler(NotLoginException.class)
     public RestResponse handlerException(NotLoginException e) {
+        e.printStackTrace();
         return RestResponse.fail(ResultCode.UNAUTHORIZED, "未登录，请先登录");
     }
 
     // 捕获系统未知的运行异常（比如空指针）
     @ExceptionHandler(Exception.class)
     public RestResponse<Object> handleException(Exception e) {
+        e.printStackTrace();
         return RestResponse.fail(ResultCode.UNKNOWN_ERROR, "服务器出现未知错误，请稍后再试");
     }
 }
