@@ -35,4 +35,9 @@ public interface UserWordBookRelationService {
      */
     public UserWordBookRelation getUserWordBookRelationById(Long id);
 
+    /**
+     * 根据用户ID和单词本ID查找对应的用户单词本关系
+     */
+    public UserWordBookRelation getUserWordBookRelationByUserIdAndWordBookId(Long userId, Long wordBookId);
+
 }

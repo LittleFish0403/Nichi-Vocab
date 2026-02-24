@@ -40,7 +40,7 @@ public class UserWordBookRelation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UserInfo userInfo;
+    private UserProfile userProfile;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "word_book_id")

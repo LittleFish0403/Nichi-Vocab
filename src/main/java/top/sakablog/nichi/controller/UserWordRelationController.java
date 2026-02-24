@@ -1,13 +1,14 @@
 package top.sakablog.nichi.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.sakablog.nichi.common.response.RestResponse;
 import top.sakablog.nichi.mapper.UserWordBookRelationMapper;
-import top.sakablog.nichi.mapper.WordMapper;
-import top.sakablog.nichi.model.Word;
+import top.sakablog.nichi.model.UserWordBookRelation;
 import top.sakablog.nichi.model.dto.*;
+import top.sakablog.nichi.service.UserService;
 import top.sakablog.nichi.service.UserWordBookRelationService;
 import top.sakablog.nichi.service.UserWordLearningService;
 import top.sakablog.nichi.service.UserWordRelationService;
@@ -38,10 +39,12 @@ public class UserWordRelationController {
 
     @Autowired
     private UserWordLearningService userWordLearningService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 用户选择单词本
-     * @param userWordBookRelationRequestDto
+     * @param userWordBookRelationRequestDto 包含用户ID和单词本ID的请求DTO
      * @return RestResponse<Void>
      */
     @PostMapping("/")
@@ -53,6 +56,19 @@ public class UserWordRelationController {
         log.info("解析到的 ID -> userId: {}, wordBookId: {}", userId, wordBookId);
         return RestResponse.success(userWordBookRelationMapper.toDto(userWordBookRelationService.selectWordBook(userId, wordBookId)));
     }
+
+    /**
+     * 根据用户id 返回 user_word_book_id
+     * @return RestResponse<Long> 包含 user_word_book_id 的响应
+     */
+    @GetMapping("/user-word-book-id")
+    public RestResponse<Long> getUserWordBookId() {
+        Long userId = StpUtil.getLoginIdAsLong();
+        Long wordBookId = userService.findUserByUserId(userId).getUserProfile().getSelectedWordBookId();
+        UserWordBookRelation userWordBookRelation = userWordBookRelationService.getUserWordBookRelationByUserIdAndWordBookId(userId, wordBookId);
+        return RestResponse.success(userWordBookRelation.getId());
+    }
+
 
     @GetMapping("/{userWordBookId}/learning/words/order")
     public RestResponse<List<UserWordRelationDto>> getLearningWordsByOrder(@PathVariable Long userWordBookId){

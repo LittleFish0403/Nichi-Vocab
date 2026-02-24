@@ -68,11 +68,13 @@ public class UserWordLearningServiceImpl implements UserWordLearningService {
     @Override
     public List<UserWordRelationDto> getLearningWordsByOrder(Long userWordBookRelationId){
         try {
-            List<UserWordRelation> learningWords = userWordRelationRepository.findLearningUserWordRelations(userWordBookRelationId);
+            Integer numberOfWordsPerSession = userWordRelationSettingService.getNumberOfWordsPerSession(userWordBookRelationId);
+
+            List<UserWordRelation> learningWords = userWordRelationRepository.findLearningUserWordRelations(userWordBookRelationId, numberOfWordsPerSession);
             List<UserWordRelation> combinedWords = new ArrayList<>(learningWords);
             log.info("当前已学习单词数量: {}", learningWords.size());
             UserWordBookRelation userWordBookRelation = userWordBookRelationService.getUserWordBookRelationById(userWordBookRelationId);
-            Integer numberOfWordsPerSession = userWordRelationSettingService.getNumberOfWordsPerSession(userWordBookRelationId);
+
             List<Word> newWords = userWordRelationRepository.findNewWordsByOrder(userWordBookRelation.getWordBookId(), userWordBookRelationId, numberOfWordsPerSession- combinedWords.size());
 
             combinedWords.addAll(userWordRelationService.initUserWordRelation(userWordBookRelationId, newWords));

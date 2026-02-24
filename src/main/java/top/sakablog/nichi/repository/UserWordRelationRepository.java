@@ -50,6 +50,8 @@ public interface UserWordRelationRepository extends JpaRepository<UserWordRelati
             SELECT uwr FROM UserWordRelation uwr
             WHERE uwr.userWordBookRelation.id = :uwrId
             AND uwr.status = 0
+            order by uwr.id
+            LIMIT :limit
             """)
-    List<UserWordRelation> findLearningUserWordRelations(Long uwrId);
+    List<UserWordRelation> findLearningUserWordRelations(Long uwrId, Integer limit);
 }

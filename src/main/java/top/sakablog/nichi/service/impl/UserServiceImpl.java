@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.User;
-import top.sakablog.nichi.model.UserInfo;
+import top.sakablog.nichi.model.UserProfile;
 import top.sakablog.nichi.repository.UserInfoRepository;
 import top.sakablog.nichi.repository.UserRepository;
 import top.sakablog.nichi.service.UserService;
@@ -33,15 +33,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(String name, String password) {
         try {
-            UserInfo userInfo = new UserInfo()
+            UserProfile userProfile = new UserProfile()
                     .setSelectedWordBook(null);
             User user = new User()
                     .setUsername(name)
                     .setPassword(password)
                     .setAvatarUrl("/avatar/default.jpg")
-                    .setUserInfo(userInfo);
-            userInfo.setUser(user);
-            userInfoRepository.save(userInfo);
+                    .setUserProfile(userProfile);
+            userProfile.setUser(user);
+            userInfoRepository.save(userProfile);
             return userRepository.save(user);
         } catch (SystemException e) {
             log.error("创建用户失败: {}", e.getMessage());

@@ -1,14 +1,15 @@
 package top.sakablog.nichi.model.dto;
 
-import lombok.Value;
+import lombok.Data;
+import top.sakablog.nichi.model.UserProfile;
 
 import java.io.Serializable;
 
 /**
- * DTO for {@link top.sakablog.nichi.model.UserInfo}
+ * DTO for {@link UserProfile}
  */
-@Value
+@Data
 public class UserInfoDto implements Serializable {
-    Long user_id;
+    Long userId;
     Long selectedWordBookId;
 }

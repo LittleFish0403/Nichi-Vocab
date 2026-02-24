@@ -1,7 +1,7 @@
 package top.sakablog.nichi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import top.sakablog.nichi.model.UserInfo;
+import top.sakablog.nichi.model.UserProfile;
 
 /**
  * <p>
@@ -12,5 +12,8 @@ import top.sakablog.nichi.model.UserInfo;
  * @version 1.0.1
  * @since 1.0.0
  */
-public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
+public interface UserInfoRepository extends JpaRepository<UserProfile, Integer> {
+    UserProfile findByUserId(Long userId);
+
+    boolean existsByUserId(Long userId);
 }

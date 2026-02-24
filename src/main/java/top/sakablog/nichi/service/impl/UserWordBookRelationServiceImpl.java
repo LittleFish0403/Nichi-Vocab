@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.*;
-import top.sakablog.nichi.model.dto.UserWordBookRelationRequestDto;
+import top.sakablog.nichi.repository.UserInfoRepository;
 import top.sakablog.nichi.repository.UserWordBookRelationRepository;
 import top.sakablog.nichi.service.UserService;
 import top.sakablog.nichi.service.UserWordBookRelationService;
@@ -40,6 +40,8 @@ public class UserWordBookRelationServiceImpl implements UserWordBookRelationServ
 
     @Autowired
     UserWordRelationService userWordRelationService;
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     /**
      * 用户选择单词本
@@ -52,22 +54,24 @@ public class UserWordBookRelationServiceImpl implements UserWordBookRelationServ
         }
         try {
             User user = userService.findUserByUserId(userId);
+            WordBook wordBook = wordBookService.getWordBookById(wordBookId);
 
             if (userWordBookRelationRepository.existsUserWordBookRelationByUserIdAndWordBookId(userId, wordBookId)) {
-                if (user.getUserInfo().getSelectedWordBook().getId().equals(wordBookId)) {
+                if (user.getUserProfile().getSelectedWordBook() != null && user.getUserProfile().getSelectedWordBook().getId().equals(wordBookId)) {
                     throw new BusinessException("重复选择词书");
                 }
                 return userWordBookRelationRepository.findUserWordBookRelationByUserIdAndWordBookId(userId, wordBookId);
             } else {
                 UserWordBookRelation userWordBookRelation = userWordBookRelationRepository.save(new UserWordBookRelation()
-                        .setUserInfo(user.getUserInfo())
-                        .setWordBook(wordBookService.getWordBookById(wordBookId))
+                        .setUserProfile(user.getUserProfile())
+                        .setWordBook(wordBook)
                         .setUserId(userId)
                         .setWordBookId(wordBookId));
                 UserWordRelationSetting userWordRelationSetting = userWordRelationSettingService.initUserWordRelationSetting();
                 userWordBookRelation.setUserWordRelationSetting(userWordRelationSetting);
                 userWordBookRelation.getUserWordRelationSetting().setUserWordBookRelation(userWordBookRelation);
-                user.getUserInfo().setSelectedWordBook(userWordBookRelation);
+                user.getUserProfile().setSelectedWordBook(wordBook);
+                user.getUserProfile().setSelectedUserWordBookRelation(userWordBookRelation);
                 return userWordBookRelationRepository.save(userWordBookRelation);
             }
         } catch (Exception e) {
@@ -107,6 +111,17 @@ public class UserWordBookRelationServiceImpl implements UserWordBookRelationServ
             return userWordBookRelationRepository.findById(id).orElseThrow();
         } catch (Exception e) {
             throw new SystemException("根据ID查找对应的用户单词本关系出现问题: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 根据用户ID和单词本ID查找对应的用户单词本关系
+     */
+    public UserWordBookRelation getUserWordBookRelationByUserIdAndWordBookId(Long userId, Long wordBookId){
+        try {
+            return userWordBookRelationRepository.findUserWordBookRelationByUserIdAndWordBookId(userId, wordBookId);
+        } catch (Exception e) {
+            throw new SystemException("根据用户ID和单词本ID查找对应的用户单词本关系出现问题: " + e.getMessage());
         }
     }
 }

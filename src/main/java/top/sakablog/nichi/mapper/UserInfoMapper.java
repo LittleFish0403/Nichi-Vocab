@@ -1,5 +1,11 @@
 package top.sakablog.nichi.mapper;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
+import top.sakablog.nichi.model.UserProfile;
+import top.sakablog.nichi.model.dto.UserInfoDto;
+
 /**
  * <p>
  *
@@ -9,5 +15,8 @@ package top.sakablog.nichi.mapper;
  * @version 1.0.1
  * @since 1.0.0
  */
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserInfoMapper {
+    UserInfoDto toDto(UserProfile userProfile);
+    UserProfile toEntity(UserInfoDto userInfoDto);
 }
