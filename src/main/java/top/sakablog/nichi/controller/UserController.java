@@ -1,5 +1,6 @@
 package top.sakablog.nichi.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import top.sakablog.nichi.common.response.RestResponse;
 import top.sakablog.nichi.mapper.UserMapper;
 import top.sakablog.nichi.model.dto.UserDto;
-import top.sakablog.nichi.model.dto.UserInfoDto;
-import top.sakablog.nichi.service.UserInfoService;
+import top.sakablog.nichi.model.dto.UserProfileDto;
+import top.sakablog.nichi.service.UserProfileService;
 import top.sakablog.nichi.service.UserService;
 
 /**
@@ -30,22 +31,24 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private UserInfoService userInfoService;
+    private UserProfileService userProfileService;
 
     @Autowired
     private UserMapper userMapper;
 
     @GetMapping("/")
+    @SaCheckLogin
     public RestResponse<UserDto> getUser() {
         Long userId = StpUtil.getLoginIdAsLong();
         return RestResponse.success(userMapper.toDto(userService.findUserByUserId(userId)));
     }
 
-    @GetMapping("/user-info")
-    public RestResponse<UserInfoDto> getUserInfo() {
+    @GetMapping("/profile")
+    @SaCheckLogin
+    public RestResponse<UserProfileDto> getUserInfo() {
         Long userId = StpUtil.getLoginIdAsLong();
-        log.info("getUserProfile userId:{}", userId);
-        return RestResponse.success(userInfoService.getUserInfoByUserId(userId));
+        log.info("getUserProfile id:{}", userId);
+        return RestResponse.success(userProfileService.getUserProfileByUserId(userId));
     }
 
 

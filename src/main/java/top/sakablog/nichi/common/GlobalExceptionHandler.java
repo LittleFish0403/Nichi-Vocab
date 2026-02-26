@@ -1,7 +1,10 @@
 package top.sakablog.nichi.common;
 
 import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.util.SaResult;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import top.sakablog.nichi.common.exception.BusinessException;
@@ -40,6 +43,18 @@ public class GlobalExceptionHandler {
     public RestResponse handlerException(NotLoginException e) {
         e.printStackTrace();
         return RestResponse.fail(ResultCode.UNAUTHORIZED, "未登录，请先登录");
+    }
+
+    @ExceptionHandler(NotPermissionException.class)
+    public RestResponse handlerException(PermissionDeniedDataAccessException e) {
+        e.printStackTrace();
+        return RestResponse.fail(ResultCode.FORBIDDEN, "没有权限访问资源");
+    }
+
+    @ExceptionHandler(NotRoleException.class)
+    public RestResponse handlerException(NotRoleException e) {
+        e.printStackTrace();
+        return RestResponse.fail(ResultCode.FORBIDDEN, "没有访问资源的角色");
     }
 
     // 捕获系统未知的运行异常（比如空指针）

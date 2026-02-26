@@ -20,9 +20,11 @@ import java.util.List;
  */
 @Repository
 public interface WordRepository extends JpaRepository<Word, Long> {
+
+    // 根据单词书ID查询单词列表
     @Query("SELECT w FROM Word w " +
-            "JOIN w.listWords lw " +  // 先关联中间表
-            "JOIN lw.wordBook wb " + // 再关联单词本
-            "WHERE wb.id = :wordBookId")
-    List<Word> findWordsByWordBookId(@Param("wordBookId") Long wordBookId);
+            "JOIN w.bookWords lw " +  // 先关联中间表
+            "JOIN lw.book wb " + // 再关联单词本
+            "WHERE wb.id = :bookId")
+    List<Word> findWordsByBookId(@Param("bookId") Long bookId);
 }

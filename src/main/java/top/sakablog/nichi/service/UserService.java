@@ -3,8 +3,9 @@ package top.sakablog.nichi.service;
 import top.sakablog.nichi.model.User;
 
 /**
+ * UserService
  * <p>
- *
+ * 用户服务接口，定义了与用户相关的业务逻辑方法，如创建用户、查询用户信息、更新用户信息等
  * </p>
  *
  * @author <a href="mailto:1041365078@qq.com">Sakana</a>

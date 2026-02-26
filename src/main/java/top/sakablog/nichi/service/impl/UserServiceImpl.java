@@ -7,8 +7,9 @@ import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.User;
 import top.sakablog.nichi.model.UserProfile;
-import top.sakablog.nichi.repository.UserInfoRepository;
+import top.sakablog.nichi.repository.UserProfileRepository;
 import top.sakablog.nichi.repository.UserRepository;
+import top.sakablog.nichi.service.UserProfileService;
 import top.sakablog.nichi.service.UserService;
 
 /**
@@ -28,20 +29,23 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserInfoRepository userInfoRepository;
+    private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    UserProfileService userProfileService;
 
     @Override
     public User createUser(String name, String password) {
         try {
             UserProfile userProfile = new UserProfile()
-                    .setSelectedWordBook(null);
+                    .setSelectedBook(null);
             User user = new User()
                     .setUsername(name)
                     .setPassword(password)
                     .setAvatarUrl("/avatar/default.jpg")
                     .setUserProfile(userProfile);
             userProfile.setUser(user);
-            userInfoRepository.save(userProfile);
+            userProfileRepository.save(userProfile);
             return userRepository.save(user);
         } catch (SystemException e) {
             log.error("创建用户失败: {}", e.getMessage());
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("用户不存在");
         }
         try {
-            return userRepository.findByusername(username);
+            return userRepository.findByUsername(username);
         } catch (Exception e) {
             throw new SystemException(e.getMessage());
         }
@@ -95,7 +99,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user){
-        User existingUser = userRepository.findById(user.getUser_id())
+        User existingUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new BusinessException("用户不存在"));
         try{
             if (user.getAvatarUrl() != null) {

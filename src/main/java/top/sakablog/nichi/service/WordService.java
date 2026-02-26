@@ -1,6 +1,7 @@
 package top.sakablog.nichi.service;
 
 import top.sakablog.nichi.model.Word;
+import top.sakablog.nichi.model.dto.WordDto;
 
 import java.util.List;
 
@@ -19,10 +20,10 @@ import java.util.List;
 
      /**
       * 根据单词本ID查找对应单词
-      * @param wordBookId 单词本ID
+      * @param bookId 单词本ID
       * @return 单词DTO对象
       */
-      public List<Word> findAllWordsByWordBookId(Long wordBookId);
+      List<Word> findAllWordsByBookId(Long bookId);
 
       //=== CRUD SAVE ===//
 
@@ -32,7 +33,7 @@ import java.util.List;
       * @param word 单词对象
       * @return 保存后的单词对象
       */
-     public Word saveWord(Word word);
+     Word saveWord(Word word);
 
      /**
       * 批量保存单词
@@ -40,21 +41,21 @@ import java.util.List;
       * @param words 单词对象列表
       * @return 保存后的单词对象列表
       */
-     public List<Word> saveAllWords(List<Word> words);
+     List<Word> saveAllWords(List<Word> words);
 
      /**
       * 根据单词本ID保存单词
       *
-      * @param wordBookId 单词本ID
+      * @param bookId 单词本ID
       * @param word       单词对象
       * @return 保存是否成功
       */
-     public Word saveWordByWordBookId(Long wordBookId, Word word);
+     Word saveWordByBookId(Long bookId, Word word);
 
     /**
      * 根据单词ID获取单词
      * @param wordId 单词ID
      * @return 单词对象
      */
-    Word getWordById(Long wordId);
+    WordDto getWordById(Long wordId);
 }

@@ -1,11 +1,12 @@
 package top.sakablog.nichi.model.dto;
 
 import lombok.Value;
+import top.sakablog.nichi.model.StudyConfig;
 
 import java.io.Serializable;
 
 /**
- * DTO for {@link top.sakablog.nichi.model.UserWordRelationSetting}
+ * DTO for {@link StudyConfig}
  */
 @Value
 public class UserWordRelationSettingDto implements Serializable {

@@ -1,13 +1,15 @@
 package top.sakablog.nichi.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import top.sakablog.nichi.config.Snowflake;
 import top.sakablog.nichi.model.enums.WordType;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,7 +30,10 @@ import java.util.List;
 public class Word {
     // 单词ID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
+    @Column(name="word_id", nullable = false, unique = true)
+    @Snowflake
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     
     // 日语单词
@@ -45,14 +50,15 @@ public class Word {
 
     // 词性
     @Enumerated(EnumType.STRING)
-    @Column(name="word_type", nullable = false)
+    @Column(name="word_type", nullable = true)
     private WordType wordType;
 
+    // 词源
     @Column(nullable = true)
     private String source;
 
     // 关联表
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ListWord> listWords;
+    private List<BookWord> bookWords;
 
 }

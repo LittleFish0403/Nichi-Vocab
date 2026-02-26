@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import top.sakablog.nichi.model.ListWord;
-import top.sakablog.nichi.model.ListWordId;
+import top.sakablog.nichi.model.Book;
+import top.sakablog.nichi.model.BookWord;
+import top.sakablog.nichi.model.BookWordId;
 import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.WordBook;
 import top.sakablog.nichi.model.enums.WordType;
 
 import java.util.Arrays;
@@ -103,27 +103,27 @@ public class WordRepositoryIntegrationTest {
                 .setSource("新标初_01");
         w1 = entityManager.persistFlushFind(w1);
 
-        // 2. 持久化 WordBook
-        WordBook wb = new WordBook()
+        // 2. 持久化 Book
+        Book wb = new Book()
                 .setName("测试单词本")
                 .setDescription("用于测试的单词本")
                 .setCount(1);
         wb = entityManager.persistFlushFind(wb);
 
         // 3. 建立并持久化中间表关联
-        ListWord savedListWord = new ListWord()
-                .setId(new ListWordId().setWordId(w1.getId()).setWordBookId(wb.getId()))
+        BookWord savedBookWord = new BookWord()
+                .setId(new BookWordId().setWordId(w1.getId()).setWordBookId(wb.getId()))
                 .setWord(w1)
-                .setWordBook(wb);
-        entityManager.persist(savedListWord);
+                .setBook(wb);
+        entityManager.persist(savedBookWord);
 
         // 强制同步到 H2 内存数据库
         entityManager.flush();
         entityManager.clear(); // 清理一级缓存，确保接下来的查询是查数据库而不是查内存
 
         // 4. 执行查询
-        // 建议 Repository 方法名改为 findWordsByWordBookId (注意大小写规范)
-        List<Word> words = wordRepository.findWordsByWordBookId(wb.getId());
+        // 建议 Repository 方法名改为 findWordsByBookId (注意大小写规范)
+        List<Word> words = wordRepository.findWordsByBookId(wb.getId());
 
         // 5. 验证
         assertThat(words.get(0).getJapaneseWord()).isEqualTo("アメリカ人");

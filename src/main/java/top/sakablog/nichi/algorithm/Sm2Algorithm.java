@@ -16,7 +16,7 @@ public class Sm2Algorithm {
         int nextRep;
         double nextEf;
         int nextInterval;
-        int status; // 0: 学习中, 1: 已掌握 (假设连续正确5次为掌握)
+        int status;
 
         // 1. 计算简易度因子 EF (Easiness Factor)
         // 公式: EF' = EF + (0.1 - (5-score) * (0.08 + (5-score) * 0.02))
