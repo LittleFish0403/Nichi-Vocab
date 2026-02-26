@@ -27,7 +27,6 @@ public class WordController {
     private WordService wordService;
 
     @GetMapping("/{wordId}")
-    @SaCheckPermission("word.view")
     public RestResponse<WordDto> getWord(@PathVariable("wordId") Long wordId) {
         return RestResponse.success(wordService.getWordById(wordId));
     }
