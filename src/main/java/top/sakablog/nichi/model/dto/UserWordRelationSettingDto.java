@@ -1,5 +1,6 @@
 package top.sakablog.nichi.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Value;
 import top.sakablog.nichi.model.StudyConfig;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
  */
 @Value
 public class UserWordRelationSettingDto implements Serializable {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     Long id;
     Integer numberOfWordsPerSession;
     Integer feedbackSize;

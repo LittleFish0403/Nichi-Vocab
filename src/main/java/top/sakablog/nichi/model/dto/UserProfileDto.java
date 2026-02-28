@@ -5,6 +5,7 @@ import lombok.Data;
 import top.sakablog.nichi.model.UserProfile;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * DTO for {@link UserProfile}
@@ -17,4 +18,6 @@ public class UserProfileDto implements Serializable {
     Integer numberOfWordsPerSession;
     Integer feedbackSize;
     Integer activeWindowSize;
+    LocalDateTime lastLoginTime;
+    Boolean isLoggedIn;
 }

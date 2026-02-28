@@ -1,5 +1,6 @@
 package top.sakablog.nichi.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Value;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Value
 @Schema(description = "用户基本信息DTO，包含用户ID、用户名和头像URL")
 public class UserBaseDto implements Serializable {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     Long id;
     String username;
     String avatarUrl;

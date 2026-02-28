@@ -1,5 +1,6 @@
 package top.sakablog.nichi.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Value;
 import top.sakablog.nichi.model.BookWordId;
@@ -12,6 +13,8 @@ import java.io.Serializable;
 @Value
 @Schema(description = "BookWord关联表的ID类，用于复合主键映射")
 public class BookWordIdDto implements Serializable {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     Long wordId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     Long wordBookId;
 }

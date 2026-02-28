@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,6 +51,14 @@ public class UserProfile {
     // 活动窗口大小，默认 6
     @Column(name="active_window_size")
     private Integer activeWindowSize = 6;
+
+    //登陆时间
+    @Column(name="last_login_time")
+    private LocalDateTime lastLoginTime;
+
+    //登录状态
+    @Column(name="is_logged_in")
+    private Boolean isLoggedIn = false;
 
     // 关联表
     @OneToOne(cascade = CascadeType.ALL)
