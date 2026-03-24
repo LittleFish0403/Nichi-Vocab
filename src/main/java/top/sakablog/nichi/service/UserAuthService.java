@@ -1,6 +1,7 @@
 package top.sakablog.nichi.service;
 
 import top.sakablog.nichi.model.UserAuth;
+import top.sakablog.nichi.model.dto.UserRegisterDto;
 import top.sakablog.nichi.model.enums.IdentityType;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public interface UserAuthService {
      * 创建用户认证信息。
      */
     UserAuth createUserAuth(Long userId, IdentityType identityType, String identifier, String credential);
+
 
     /**
      * 根据用户 ID 查询全部认证信息。

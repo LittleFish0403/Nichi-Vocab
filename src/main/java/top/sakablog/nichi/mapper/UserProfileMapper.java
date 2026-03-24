@@ -1,6 +1,7 @@
 package top.sakablog.nichi.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import top.sakablog.nichi.model.UserProfile;
@@ -17,6 +18,8 @@ import top.sakablog.nichi.model.dto.UserProfileDto;
  */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserProfileMapper {
+    @Mapping(target = "selectedBookId", source = "selectedBook.id")
+    @Mapping(target = "selectedUserBookProgressId", source = "selectedUserBookProgress.id")
     UserProfileDto toDto(UserProfile userProfile);
     UserProfile toEntity(UserProfileDto userProfileDto);
 }

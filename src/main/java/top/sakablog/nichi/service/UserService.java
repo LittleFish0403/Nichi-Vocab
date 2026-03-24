@@ -1,6 +1,8 @@
 package top.sakablog.nichi.service;
 
 import top.sakablog.nichi.model.User;
+import top.sakablog.nichi.model.dto.UserDto;
+import top.sakablog.nichi.model.dto.UserRegisterDto;
 
 /**
  * UserService
@@ -16,7 +18,7 @@ public interface UserService {
     /**
      * 新建用户
      */
-    User createUser(String name, String password);
+    User createUser(String name);
 
     /**
      * 根据用户名查询用户登录信息

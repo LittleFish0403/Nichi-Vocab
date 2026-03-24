@@ -7,6 +7,8 @@ import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.User;
 import top.sakablog.nichi.model.UserProfile;
+import top.sakablog.nichi.model.dto.UserDto;
+import top.sakablog.nichi.model.dto.UserRegisterDto;
 import top.sakablog.nichi.repository.UserProfileRepository;
 import top.sakablog.nichi.repository.UserRepository;
 import top.sakablog.nichi.service.UserProfileService;
@@ -35,13 +37,12 @@ public class UserServiceImpl implements UserService {
     UserProfileService userProfileService;
 
     @Override
-    public User createUser(String name, String password) {
+    User createUser(String name) {
         try {
             UserProfile userProfile = new UserProfile()
                     .setSelectedBook(null);
             User user = new User()
                     .setUsername(name)
-                    .setPassword(password)
                     .setAvatarUrl("/avatar/default.jpg")
                     .setUserProfile(userProfile);
             userProfile.setUser(user);

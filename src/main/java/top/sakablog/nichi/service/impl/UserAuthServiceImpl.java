@@ -9,6 +9,7 @@ import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.User;
 import top.sakablog.nichi.model.UserAuth;
+import top.sakablog.nichi.model.dto.UserRegisterDto;
 import top.sakablog.nichi.model.enums.IdentityType;
 import top.sakablog.nichi.repository.UserAuthRepository;
 import top.sakablog.nichi.service.UserAuthService;
