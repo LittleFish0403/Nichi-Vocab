@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import top.sakablog.nichi.config.Snowflake;
 
+import java.util.List;
+
 /**
  * User Entity
  * <p>
@@ -35,18 +37,6 @@ public class User {
     @Column(nullable = false, unique = true, length = 50)
     private String username;
 
-    // 密码
-    @Column(nullable = false)
-    private String password;
-
-    // 电话号码
-    @Column(unique = true, length = 50)
-    private String phone;
-
-    // 邮箱
-    @Column(unique = true, length = 50)
-    private String email;
-
     // 头像URL
     @Column(length = 100)
     private String avatarUrl;
@@ -55,4 +45,6 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserProfile userProfile;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserAuth> userAuths;
 }
