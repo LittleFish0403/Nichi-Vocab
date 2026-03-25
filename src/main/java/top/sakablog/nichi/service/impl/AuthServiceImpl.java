@@ -1,23 +1,24 @@
 package top.sakablog.nichi.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.crypto.digest.BCrypt;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import top.sakablog.nichi.common.ResultCode;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.mapper.UserMapper;
-import top.sakablog.nichi.mapper.UserRegisterMapper;
 import top.sakablog.nichi.model.User;
 import top.sakablog.nichi.model.UserAuth;
-import top.sakablog.nichi.model.UserProfile;
 import top.sakablog.nichi.model.dto.UserBaseDto;
+import top.sakablog.nichi.model.dto.UserLoginDto;
 import top.sakablog.nichi.model.dto.UserRegisterDto;
-import top.sakablog.nichi.model.dto.VerificationCodeDto;
 import top.sakablog.nichi.model.enums.IdentityType;
-import top.sakablog.nichi.repository.UserRepository;
 import top.sakablog.nichi.service.AuthService;
 import top.sakablog.nichi.service.UserAuthService;
 import top.sakablog.nichi.service.UserService;
@@ -44,9 +45,12 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     @Override
     @Transactional
-    public User registerRequest(UserRegisterDto userRegisterDto) {
+    public User register(UserRegisterDto userRegisterDto) {
         if (userRegisterDto == null) {
             throw new BusinessException(ResultCode.PARAM_ERROR, "注册信息不能为空");
         }
@@ -57,6 +61,12 @@ public class AuthServiceImpl implements AuthService {
         }
 
         try {
+            String verifyCode = stringRedisTemplate.opsForValue().get("nichi:verify_code:" + userRegisterDto.getIdentityType() + ":" + userRegisterDto.getIdentifier());
+            if (verifyCode == null || !verifyCode.equals(userRegisterDto.getVerifyCode())) {
+                throw new BusinessException(ResultCode.PARAM_ERROR, "验证码错误或已过期");
+            }
+            stringRedisTemplate.delete("nichi:verify_code:" + userRegisterDto.getIdentityType() + ":" + userRegisterDto.getIdentifier());
+
             User user = userService.createUser(userRegisterDto.getUsername());
             userAuthService.createUserAuth(
                     user.getId(),
@@ -74,50 +84,40 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
-    public User registerIdentify(VerificationCodeDto verificationCodeDto) {
-            if (verificationCodeDto == null) {
-                throw new BusinessException(ResultCode.PARAM_ERROR, "注册信息不能为空");
-            }
-            if (userAuthService.existsByIdentityTypeAndIdentifier(
-                    verificationCodeDto.getIdentityType(),
-                    verificationCodeDto.getIdentifier())) {
-                throw new BusinessException(ResultCode.PARAM_ERROR, "认证标识已存在");
-            }
-
-            try {
-                User user = userService.createUser(verificationCodeDto.getUsername());
-                userAuthService.createUserAuth(
-                        user.getId(),
-                        verificationCodeDto.getIdentityType(),
-                        verificationCodeDto.getIdentifier(),
-                        verificationCodeDto.getCredential()
-                );
-                return user;
-            } catch (BusinessException e) {
-                throw e;
-            } catch (Exception e) {
-                log.error("用户注册失败: {}", e.getMessage());
-                throw new SystemException("用户注册失败", e);
-            }
-    }
-
-
-    @Override
-    public UserBaseDto login(IdentityType identityType, String identifier, String credential) {
+    public String generateVerifyCode(IdentityType identityType, String identifier) {
         if (identityType == null) {
             throw new BusinessException(ResultCode.PARAM_ERROR, "认证类型不能为空");
         }
         if (identifier == null || identifier.isBlank()) {
             throw new BusinessException(ResultCode.PARAM_ERROR, "认证标识不能为空");
         }
-        if (credential == null || credential.isBlank()) {
-            throw new BusinessException(ResultCode.PARAM_ERROR, "凭证不能为空");
+        if (! (Validator.isMobile(identifier) || Validator.isEmail(identifier))) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "手机/邮箱格式不正确");
+        }
+        if (userAuthService.existsByIdentityTypeAndIdentifier(identityType, identifier)) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "该手机号或邮箱已注册");
         }
 
         try {
-            UserAuth userAuth = userAuthService.findByIdentityTypeAndIdentifier(identityType, identifier);
-            if (!matchesCredential(credential, userAuth.getCredential())) {
+            String verifyCode = RandomUtil.randomNumbers(6);
+            String redisKey = "nichi:" + "verify_code:" + identityType + ":" + identifier;
+            stringRedisTemplate.opsForValue().set(redisKey, verifyCode, 5, java.util.concurrent.TimeUnit.MINUTES);
+            return verifyCode;
+        } catch (Exception e) {
+            log.error("生成验证码失败: {}", e.getMessage());
+            throw new SystemException("生成验证码失败", e);
+        }
+    }
+
+
+    @Override
+    public UserBaseDto login(UserLoginDto userLoginDto) {
+        if (userLoginDto == null) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "登录信息不能为空");
+        }
+        try {
+            UserAuth userAuth = userAuthService.findByIdentityTypeAndIdentifier(userLoginDto.getIdentityType(), userLoginDto.getIdentifier());
+            if (! (BCrypt.checkpw(userLoginDto.getCredential(), userAuth.getCredential()))) {
                 throw new BusinessException(ResultCode.UNAUTHORIZED, "用户名或密码错误");
             }
 
@@ -139,20 +139,5 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout() {
         StpUtil.logout();
-    }
-
-    private void applyIdentifier(User user, IdentityType identityType, String identifier) {
-        if (identityType == IdentityType.EMAIL) {
-            user.setEmail(identifier);
-            return;
-        }
-        if (identityType == IdentityType.PHONE) {
-            user.setPhone(identifier);
-        }
-    }
-
-    // 后续接入 BCrypt 时，只需要替换这一处比对逻辑。
-    private boolean matchesCredential(String rawCredential, String storedCredential) {
-        return storedCredential != null && storedCredential.equals(rawCredential);
     }
 }

@@ -1,8 +1,6 @@
 package top.sakablog.nichi.service;
 
 import top.sakablog.nichi.model.User;
-import top.sakablog.nichi.model.dto.UserDto;
-import top.sakablog.nichi.model.dto.UserRegisterDto;
 
 /**
  * UserService

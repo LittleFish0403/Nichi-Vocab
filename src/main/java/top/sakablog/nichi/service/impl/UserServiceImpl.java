@@ -7,22 +7,10 @@ import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.User;
 import top.sakablog.nichi.model.UserProfile;
-import top.sakablog.nichi.model.dto.UserDto;
-import top.sakablog.nichi.model.dto.UserRegisterDto;
 import top.sakablog.nichi.repository.UserProfileRepository;
 import top.sakablog.nichi.repository.UserRepository;
 import top.sakablog.nichi.service.UserProfileService;
 import top.sakablog.nichi.service.UserService;
-
-/**
- * <p>
- *
- * </p>
- *
- * @author <a href="mailto:1041365078@qq.com">Sakana</a>
- * @version 1.0.1
- * @since 1.0.0
- */
 
 @Service
 @Slf4j
@@ -34,13 +22,15 @@ public class UserServiceImpl implements UserService {
     private UserProfileRepository userProfileRepository;
 
     @Autowired
-    UserProfileService userProfileService;
+    private UserProfileService userProfileService;
 
     @Override
-    User createUser(String name) {
+    public User createUser(String name) {
+        if (name == null || name.isBlank()) {
+            throw new BusinessException("用户名不能为空");
+        }
         try {
-            UserProfile userProfile = new UserProfile()
-                    .setSelectedBook(null);
+            UserProfile userProfile = new UserProfile().setSelectedBook(null);
             User user = new User()
                     .setUsername(name)
                     .setAvatarUrl("/avatar/default.jpg")
@@ -48,91 +38,100 @@ public class UserServiceImpl implements UserService {
             userProfile.setUser(user);
             userProfileRepository.save(userProfile);
             return userRepository.save(user);
-        } catch (SystemException e) {
-            log.error("创建用户失败: {}", e.getMessage());
-            return null;
+        } catch (BusinessException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("创建用户失败: {}", e.getMessage(), e);
+            throw new SystemException("创建用户失败", e);
         }
     }
 
     @Override
     public User findUserByUsername(String username) {
-        if (username == null || username.isEmpty()) {
-            log.error("用户名不能为空");
-           throw new BusinessException("用户名不能为空");
+        if (username == null || username.isBlank()) {
+            throw new BusinessException("用户名不能为空");
         }
         if (!userRepository.existsUserByUsername(username)) {
-            log.error("用户不存在: {}", username);
             throw new BusinessException("用户不存在");
         }
         try {
             return userRepository.findByUsername(username);
         } catch (Exception e) {
-            throw new SystemException(e.getMessage());
+            log.error("按用户名查询用户失败: {}", e.getMessage(), e);
+            throw new SystemException("按用户名查询用户失败", e);
         }
     }
 
     @Override
-    public User findUserByUserId(Long userId){
+    public User findUserByUserId(Long userId) {
+        if (userId == null) {
+            throw new BusinessException("用户ID不能为空");
+        }
         if (!userRepository.existsById(userId)) {
-            log.error("用户不存在: {}", userId);
             throw new BusinessException("用户不存在");
         }
         try {
             return userRepository.findById(userId).orElse(null);
         } catch (Exception e) {
-            throw new SystemException(e.getMessage());
+            log.error("按用户ID查询用户失败: {}", e.getMessage(), e);
+            throw new SystemException("按用户ID查询用户失败", e);
         }
     }
 
     @Override
     public void deleteUserById(Long userId) {
+        if (userId == null) {
+            throw new BusinessException("用户ID不能为空");
+        }
         if (!userRepository.existsById(userId)) {
-            log.error("用户不存在: {}", userId);
             throw new BusinessException("用户不存在");
         }
         try {
             userRepository.deleteById(userId);
         } catch (Exception e) {
-            log.error("删除用户失败: {}", e.getMessage());
-            throw new SystemException(e.getMessage());
+            log.error("删除用户失败: {}", e.getMessage(), e);
+            throw new SystemException("删除用户失败", e);
         }
     }
 
     @Override
-    public User updateUser(User user){
+    public User updateUser(User user) {
+        if (user == null || user.getId() == null) {
+            throw new BusinessException("用户ID不能为空");
+        }
+
         User existingUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new BusinessException("用户不存在"));
-        try{
+
+        try {
             if (user.getAvatarUrl() != null) {
                 existingUser.setAvatarUrl(user.getAvatarUrl());
             }
             if (user.getUsername() != null) {
                 existingUser.setUsername(user.getUsername());
             }
-            if (user.getPassword() != null) {
-                existingUser.setPassword(user.getPassword());
+            if (user.getUserProfile() != null) {
+                existingUser.setUserProfile(user.getUserProfile());
             }
-            if (user.getEmail() != null) {
-                existingUser.setEmail(user.getEmail());
-            }
-            return existingUser;
-        } catch (Exception e){
-            log.error("更新用户失败: {}", e.getMessage());
-            throw new SystemException(e.getMessage());
+            return userRepository.save(existingUser);
+        } catch (BusinessException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("更新用户失败: {}", e.getMessage(), e);
+            throw new SystemException("更新用户失败", e);
         }
     }
 
     @Override
     public boolean existsByUserId(Long userId) {
-        try{
-            if (userId == null) {
-                throw new BusinessException("用户ID不能为空");
-            }
+        if (userId == null) {
+            throw new BusinessException("用户ID不能为空");
+        }
+        try {
             return userRepository.existsById(userId);
-        } catch (Exception e){
-            log.error("检查用户ID是否存在失败: {}", e.getMessage());
-            throw new SystemException(e.getMessage());
+        } catch (Exception e) {
+            log.error("校验用户是否存在失败: {}", e.getMessage(), e);
+            throw new SystemException("校验用户是否存在失败", e);
         }
     }
-
 }

@@ -1,6 +1,8 @@
 package top.sakablog.nichi.service;
 
+import top.sakablog.nichi.model.User;
 import top.sakablog.nichi.model.dto.UserBaseDto;
+import top.sakablog.nichi.model.dto.UserLoginDto;
 import top.sakablog.nichi.model.dto.UserRegisterDto;
 import top.sakablog.nichi.model.enums.IdentityType;
 
@@ -18,12 +20,17 @@ public interface AuthService {
     /**
      * 注册用户，并创建对应认证信息。
      */
-    UserBaseDto register(UserRegisterDto userRegisterDto);
+    User register(UserRegisterDto userRegisterDto);
+
+    /**
+     * 生成临时验证码
+     */
+    String generateVerifyCode(IdentityType identityType, String identifier);
 
     /**
      * 按认证标识登录。
      */
-    UserBaseDto login(IdentityType identityType, String identifier, String credential);
+    UserBaseDto login(UserLoginDto userLoginDto);
 
     /**
      * 退出登录。
