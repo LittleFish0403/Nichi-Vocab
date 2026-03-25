@@ -29,4 +29,8 @@ public class UserRegisterDto implements Serializable {
     @NotBlank
     @Schema(description = "登录凭证，当前为原始密码，入库前应加密", example = "123456")
     String credential;
+
+    @NotBlank
+    @Schema(description = "验证码", example = "123456")
+    String verifyCode;
 }
