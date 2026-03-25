@@ -13,8 +13,8 @@ import top.sakablog.nichi.common.ResultCode;
 import top.sakablog.nichi.common.response.RestResponse;
 import top.sakablog.nichi.mapper.UserMapper;
 import top.sakablog.nichi.model.User;
-import top.sakablog.nichi.model.dto.UserBaseDto;
-import top.sakablog.nichi.model.dto.UserRequestDto;
+import top.sakablog.nichi.model.dto.*;
+import top.sakablog.nichi.service.AuthService;
 import top.sakablog.nichi.service.UserService;
 
 /**
@@ -35,6 +35,9 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private UserMapper userMapper;
 
     /**
@@ -42,15 +45,8 @@ public class AuthController {
      */
     @PostMapping("/login")
     @Operation(summary = "用户登录", description = "用户登录接口，提供用户名和密码进行登录")
-    public RestResponse<UserBaseDto> doLogin(@RequestBody UserRequestDto userDto) {
-        // 第一步：比对前端提交的账号名称、密码
-        User user = userService.findUserByUsername(userDto.getUsername());
-        if(user.getPassword().equals(userDto.getPassword())) {
-            // 第二步：根据账号id，进行登录
-            StpUtil.login(user.getId());
-            return RestResponse.success(userMapper.toBaseDto(user));
-        }
-        return RestResponse.fail(ResultCode.SYSTEM_ERROR,"登录失败");
+    public RestResponse<UserBaseDto> doLogin(@RequestBody UserLoginDto userLoginDto) {
+        return RestResponse.success(authService.login(userLoginDto));
     }
 
     @GetMapping(value = "/token-info")
@@ -62,7 +58,7 @@ public class AuthController {
     @PostMapping("/logout")
     @SaCheckLogin
     public RestResponse<Boolean> logout() {
-        StpUtil.logout();
+        authService.logout();
         return RestResponse.success(true);
     }
 
@@ -81,8 +77,17 @@ public class AuthController {
      */
     @PostMapping("/register")
     @Operation(summary = "用户注册", description = "用户注册接口，提供用户名和密码进行注册")
-    public RestResponse<UserBaseDto> doRegister(@RequestBody UserRequestDto userDto) {
-        User user = userService.createUser(userDto.getUsername(), userDto.getPassword());
-        return RestResponse.success(userMapper.toBaseDto(user));
+    public RestResponse<UserBaseDto> doRegister(@RequestBody UserRegisterDto userRegisterDto) {
+        return RestResponse.success(userMapper.toBaseDto(authService.register(userRegisterDto)));
+    }
+
+    /**
+     * 生成验证码
+     */
+    @GetMapping("/verify-code")
+    @Operation(summary = "生成验证码", description = "生成验证码接口，提供认证类型和认证标识（手机号或邮箱）进行验证码生成")
+    public RestResponse<Void> generateVerifyCode(@RequestBody VerifyCodeRequestDto verifyCodeRequestDto) {
+        authService.generateVerifyCode(verifyCodeRequestDto.getIdentityType(), verifyCodeRequestDto.getIdentifier());
+        return RestResponse.success();
     }
 }
