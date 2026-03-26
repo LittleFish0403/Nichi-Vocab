@@ -62,3 +62,18 @@ sa-token:
   token-style: uuid            # token ??
   is-log: true                 # ????????
 
+sms4j:
+  mail:
+    enabled: true
+    config-id: default
+    smtp-server: ${MAIL_SMTP_SERVER:smtp.qq.com}
+    port: ${MAIL_PORT:465}
+    from-address: ${MAIL_FROM_ADDRESS:nichigo_client@qq.com}
+    username: ${MAIL_USERNAME:nichigo_client@qq.com}
+    password: ${MAIL_PASSWORD:fryzhmxwgylzcjcc}
+    nick-name: NichiGo
+    ssl: true
+    auth: true
+    retry-interval: 5
+    max-retries: 1
+    verify-code-subject: Nichi 验证码

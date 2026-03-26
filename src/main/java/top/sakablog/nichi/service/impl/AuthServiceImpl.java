@@ -20,6 +20,7 @@ import top.sakablog.nichi.model.dto.UserLoginDto;
 import top.sakablog.nichi.model.dto.UserRegisterDto;
 import top.sakablog.nichi.model.enums.IdentityType;
 import top.sakablog.nichi.service.AuthService;
+import top.sakablog.nichi.service.MailService;
 import top.sakablog.nichi.service.UserAuthService;
 import top.sakablog.nichi.service.UserService;
 
@@ -47,6 +48,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private MailService mailService;
 
     @Override
     @Transactional
@@ -102,6 +106,14 @@ public class AuthServiceImpl implements AuthService {
             String verifyCode = RandomUtil.randomNumbers(6);
             String redisKey = "nichi:" + "verify_code:" + identityType + ":" + identifier;
             stringRedisTemplate.opsForValue().set(redisKey, verifyCode, 5, java.util.concurrent.TimeUnit.MINUTES);
+            if (IdentityType.EMAIL.equals(identityType)) {
+                try {
+                    mailService.sendVerifyCode(identifier, verifyCode);
+                } catch (Exception e) {
+                    stringRedisTemplate.delete(redisKey);
+                    throw e;
+                }
+            }
             return verifyCode;
         } catch (Exception e) {
             log.error("生成验证码失败: {}", e.getMessage());

@@ -110,12 +110,17 @@
         </dependency>
 
         <!-- sms4j 短信邮箱发送 -->
-        <!-- Source: https://mvnrepository.com/artifact/org.dromara.sms4j/sms4j-spring-boot-starter -->
         <dependency>
             <groupId>org.dromara.sms4j</groupId>
             <artifactId>sms4j-spring-boot-starter</artifactId>
             <version>3.3.5</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- JDK 11+ / Spring Boot 3 常用这个 -->
+        <dependency>
+            <groupId>org.dromara.sms4j</groupId>
+            <artifactId>sms4j-email-jakarta-core</artifactId>
+            <version>3.3.5</version>
         </dependency>
 
 
