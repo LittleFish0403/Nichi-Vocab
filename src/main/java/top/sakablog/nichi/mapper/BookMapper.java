@@ -1,8 +1,8 @@
 package top.sakablog.nichi.mapper;
 
 import org.mapstruct.Mapper;
-import top.sakablog.nichi.model.Book;
-import top.sakablog.nichi.model.dto.BookDto;
+import top.sakablog.nichi.model.entity.Book;
+import top.sakablog.nichi.model.dto.book.BookDto;
 
 import java.util.List;
 

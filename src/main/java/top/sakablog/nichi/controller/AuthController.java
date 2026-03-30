@@ -1,7 +1,6 @@
 package top.sakablog.nichi.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,11 +8,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.sakablog.nichi.common.ResultCode;
 import top.sakablog.nichi.common.response.RestResponse;
 import top.sakablog.nichi.mapper.UserMapper;
-import top.sakablog.nichi.model.User;
-import top.sakablog.nichi.model.dto.*;
+import top.sakablog.nichi.model.dto.auth.UserLoginDto;
+import top.sakablog.nichi.model.dto.auth.UserRegisterDto;
+import top.sakablog.nichi.model.dto.auth.VerifyCodeRequestDto;
+import top.sakablog.nichi.model.dto.user.UserBaseDto;
+import top.sakablog.nichi.model.entity.user.User;
 import top.sakablog.nichi.service.AuthService;
 import top.sakablog.nichi.service.UserService;
 

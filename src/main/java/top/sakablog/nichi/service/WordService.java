@@ -1,7 +1,7 @@
 package top.sakablog.nichi.service;
 
-import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.dto.WordDto;
+import top.sakablog.nichi.model.entity.word.Word;
+import top.sakablog.nichi.model.dto.word.WordDto;
 
 import java.util.List;
 

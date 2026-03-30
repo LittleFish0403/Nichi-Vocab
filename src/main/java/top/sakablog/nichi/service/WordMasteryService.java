@@ -1,7 +1,7 @@
 package top.sakablog.nichi.service;
 
-import top.sakablog.nichi.model.WordMastery;
-import top.sakablog.nichi.model.Word;
+import top.sakablog.nichi.model.entity.study.WordMastery;
+import top.sakablog.nichi.model.entity.word.Word;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package top.sakablog.nichi.service;
 
-import top.sakablog.nichi.model.User;
-import top.sakablog.nichi.model.dto.UserBaseDto;
-import top.sakablog.nichi.model.dto.UserLoginDto;
-import top.sakablog.nichi.model.dto.UserRegisterDto;
+import top.sakablog.nichi.model.entity.user.User;
+import top.sakablog.nichi.model.dto.user.UserBaseDto;
+import top.sakablog.nichi.model.dto.auth.UserLoginDto;
+import top.sakablog.nichi.model.dto.auth.UserRegisterDto;
 import top.sakablog.nichi.model.enums.IdentityType;
 
 /**

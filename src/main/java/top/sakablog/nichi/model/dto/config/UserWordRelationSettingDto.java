@@ -1,0 +1,19 @@
+package top.sakablog.nichi.model.dto.config;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Value;
+import top.sakablog.nichi.model.entity.study.StudyConfig;
+
+import java.io.Serializable;
+
+/**
+ * DTO for {@link StudyConfig}
+ */
+@Value
+public class UserWordRelationSettingDto implements Serializable {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    Long id;
+    Integer numberOfWordsPerSession;
+    Integer feedbackSize;
+    Integer activeWindowSize;
+}

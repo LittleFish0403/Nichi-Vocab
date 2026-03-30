@@ -1,15 +1,17 @@
 package top.sakablog.nichi.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.sakablog.nichi.common.response.RestResponse;
 import top.sakablog.nichi.mapper.UserBookProgressMapper;
-import top.sakablog.nichi.model.UserBookProgress;
-import top.sakablog.nichi.model.dto.*;
+import top.sakablog.nichi.model.dto.study.UserBookProgressDto;
+import top.sakablog.nichi.model.dto.study.UserBookProgressRequestDto;
+import top.sakablog.nichi.model.dto.study.WordMasteryDto;
+import top.sakablog.nichi.model.dto.study.WordMasteryScoreDto;
+import top.sakablog.nichi.model.entity.study.UserBookProgress;
 import top.sakablog.nichi.service.UserService;
 import top.sakablog.nichi.service.UserBookProgressService;
 import top.sakablog.nichi.service.LearningService;
@@ -63,15 +65,23 @@ public class LearningController {
 
     /**
      * 根据用户id 返回 user_word_book_id
-     * @return RestResponse<Long> 包含 user_word_book_id 的响应
+     * @return RestResponse<String> 包含 user_word_book_id 的响应
      */
     @GetMapping("/active-progress-id")
     @SaCheckLogin
-    public RestResponse<Long> getUserWordBookId() {
+    public RestResponse<String> getUserWordBookId() {
         Long userId = StpUtil.getLoginIdAsLong();
         Long wordBookId = userService.findUserByUserId(userId).getUserProfile().getSelectedBookId();
         UserBookProgress userBookProgress = userBookProgressService.getUserBookProgressByUserIdAndBookId(userId, wordBookId);
-        return RestResponse.success(userBookProgress.getId());
+        return RestResponse.success(userBookProgress.getId().toString());
+    }
+
+    @GetMapping("/active-book-id")
+    @SaCheckLogin
+    public RestResponse<String> getActiveBookId() {
+        Long userId = StpUtil.getLoginIdAsLong();
+        Long wordBookId = userService.findUserByUserId(userId).getUserProfile().getSelectedBookId();
+        return RestResponse.success(wordBookId.toString());
     }
 
 

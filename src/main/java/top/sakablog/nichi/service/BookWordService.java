@@ -1,8 +1,8 @@
 package top.sakablog.nichi.service;
 
-import top.sakablog.nichi.model.Book;
-import top.sakablog.nichi.model.BookWord;
-import top.sakablog.nichi.model.Word;
+import top.sakablog.nichi.model.entity.Book;
+import top.sakablog.nichi.model.entity.BookWord;
+import top.sakablog.nichi.model.entity.word.Word;
 
 import java.util.List;
 

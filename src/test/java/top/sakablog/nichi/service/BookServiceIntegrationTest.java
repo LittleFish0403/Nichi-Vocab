@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import top.sakablog.nichi.model.Book;
+import top.sakablog.nichi.model.entity.Book;
 import top.sakablog.nichi.repository.WordRepository;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -3,8 +3,8 @@ package top.sakablog.nichi.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-import top.sakablog.nichi.model.UserBookProgress;
-import top.sakablog.nichi.model.dto.UserBookProgressDto;
+import top.sakablog.nichi.model.entity.study.UserBookProgress;
+import top.sakablog.nichi.model.dto.study.UserBookProgressDto;
 
 /**
  * <p>

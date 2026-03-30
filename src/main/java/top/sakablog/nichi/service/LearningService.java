@@ -1,7 +1,7 @@
 package top.sakablog.nichi.service;
 
-import top.sakablog.nichi.model.dto.WordMasteryDto;
-import top.sakablog.nichi.model.dto.WordMasteryScoreDto;
+import top.sakablog.nichi.model.dto.study.WordMasteryDto;
+import top.sakablog.nichi.model.dto.study.WordMasteryScoreDto;
 
 import java.util.List;
 

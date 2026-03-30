@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import top.sakablog.nichi.model.Book;
-import top.sakablog.nichi.model.BookWord;
-import top.sakablog.nichi.model.BookWordId;
-import top.sakablog.nichi.model.Word;
+import top.sakablog.nichi.model.entity.Book;
+import top.sakablog.nichi.model.entity.BookWord;
+import top.sakablog.nichi.model.entity.BookWordId;
+import top.sakablog.nichi.model.entity.word.Word;
 import top.sakablog.nichi.model.enums.WordType;
 
 import java.util.Arrays;

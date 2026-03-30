@@ -13,11 +13,11 @@ import org.springframework.mock.web.MockMultipartFile;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.mapper.WordMapper;
 import top.sakablog.nichi.mapper.WordMapperImpl;
-import top.sakablog.nichi.model.Book;
-import top.sakablog.nichi.model.BookWord;
-import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.dto.BookDto;
-import top.sakablog.nichi.model.dto.WordImportDto;
+import top.sakablog.nichi.model.entity.Book;
+import top.sakablog.nichi.model.entity.BookWord;
+import top.sakablog.nichi.model.entity.word.Word;
+import top.sakablog.nichi.model.dto.book.BookDto;
+import top.sakablog.nichi.model.dto.book.WordImportDto;
 import top.sakablog.nichi.service.impl.BookServiceImpl;
 import top.sakablog.nichi.utils.CsvUtils;
 

@@ -1,9 +1,9 @@
 package top.sakablog.nichi.mapper;
 
 import org.mapstruct.*;
-import top.sakablog.nichi.model.User;
-import top.sakablog.nichi.model.dto.UserBaseDto;
-import top.sakablog.nichi.model.dto.UserDto;
+import top.sakablog.nichi.model.entity.user.User;
+import top.sakablog.nichi.model.dto.user.UserBaseDto;
+import top.sakablog.nichi.model.dto.user.UserDto;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {

@@ -1,6 +1,6 @@
 package top.sakablog.nichi.service;
 
-import top.sakablog.nichi.model.UserAuth;
+import top.sakablog.nichi.model.entity.user.UserAuth;
 import top.sakablog.nichi.model.enums.IdentityType;
 
 import java.util.List;

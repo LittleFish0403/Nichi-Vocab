@@ -1,7 +1,7 @@
 package top.sakablog.nichi.service;
 
-import top.sakablog.nichi.model.UserBookProgress;
-import top.sakablog.nichi.model.Book;
+import top.sakablog.nichi.model.entity.study.UserBookProgress;
+import top.sakablog.nichi.model.entity.Book;
 
 import java.util.List;
 

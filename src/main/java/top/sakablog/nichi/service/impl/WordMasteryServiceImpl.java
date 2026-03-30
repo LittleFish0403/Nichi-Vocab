@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.sakablog.nichi.common.exception.SystemException;
-import top.sakablog.nichi.model.*;
+import top.sakablog.nichi.model.entity.study.UserBookProgress;
+import top.sakablog.nichi.model.entity.word.Word;
+import top.sakablog.nichi.model.entity.study.WordMastery;
 import top.sakablog.nichi.repository.WordMasteryRepository;
 import top.sakablog.nichi.service.*;
 

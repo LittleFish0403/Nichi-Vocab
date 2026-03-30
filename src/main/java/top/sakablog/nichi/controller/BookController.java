@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.sakablog.nichi.common.ResultCode;
-import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.common.response.RestResponse;
 import top.sakablog.nichi.mapper.BookMapper;
 import top.sakablog.nichi.mapper.WordMapper;
-import top.sakablog.nichi.model.Book;
-import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.dto.BookDto;
-import top.sakablog.nichi.model.dto.WordDto;
+import top.sakablog.nichi.model.entity.Book;
+import top.sakablog.nichi.model.entity.word.Word;
+import top.sakablog.nichi.model.dto.book.BookDto;
+import top.sakablog.nichi.model.dto.word.WordDto;
 import top.sakablog.nichi.service.BookService;
 import top.sakablog.nichi.service.WordService;
 

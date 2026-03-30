@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import top.sakablog.nichi.common.exception.BusinessException;
-import top.sakablog.nichi.model.dto.WordImportDto;
+import top.sakablog.nichi.model.dto.book.WordImportDto;
 
 import java.io.IOException;
 import java.io.Reader;

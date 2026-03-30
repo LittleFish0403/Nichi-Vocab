@@ -4,8 +4,8 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-import top.sakablog.nichi.model.WordMastery;
-import top.sakablog.nichi.model.dto.WordMasteryDto;
+import top.sakablog.nichi.model.entity.study.WordMastery;
+import top.sakablog.nichi.model.dto.study.WordMasteryDto;
 
 import java.util.List;
 

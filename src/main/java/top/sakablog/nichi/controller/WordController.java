@@ -1,13 +1,12 @@
 package top.sakablog.nichi.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.sakablog.nichi.common.response.RestResponse;
-import top.sakablog.nichi.model.dto.WordDto;
+import top.sakablog.nichi.model.dto.word.WordDto;
 import top.sakablog.nichi.service.WordService;
 
 /**

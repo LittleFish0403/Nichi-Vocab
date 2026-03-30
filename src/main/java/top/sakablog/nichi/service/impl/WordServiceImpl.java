@@ -6,8 +6,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.mapper.WordMapper;
-import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.dto.WordDto;
+import top.sakablog.nichi.model.entity.word.Word;
+import top.sakablog.nichi.model.dto.word.WordDto;
 import top.sakablog.nichi.repository.WordRepository;
 import top.sakablog.nichi.service.WordService;
 

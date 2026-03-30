@@ -3,9 +3,9 @@ package top.sakablog.nichi.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.dto.WordImportDto;
-import top.sakablog.nichi.model.dto.WordDto;
+import top.sakablog.nichi.model.entity.word.Word;
+import top.sakablog.nichi.model.dto.book.WordImportDto;
+import top.sakablog.nichi.model.dto.word.WordDto;
 import top.sakablog.nichi.model.enums.WordType;
 
 import java.util.List;

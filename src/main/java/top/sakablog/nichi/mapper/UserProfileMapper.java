@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-import top.sakablog.nichi.model.UserProfile;
-import top.sakablog.nichi.model.dto.UserProfileDto;
+import top.sakablog.nichi.model.entity.user.UserProfile;
+import top.sakablog.nichi.model.dto.user.UserProfileDto;
 
 /**
  * <p>

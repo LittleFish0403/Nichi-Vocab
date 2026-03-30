@@ -5,13 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
-import top.sakablog.nichi.model.*;
+import top.sakablog.nichi.model.entity.Book;
+import top.sakablog.nichi.model.entity.user.User;
+import top.sakablog.nichi.model.entity.study.UserBookProgress;
+import top.sakablog.nichi.model.entity.user.UserProfile;
 import top.sakablog.nichi.repository.BookRepository;
 import top.sakablog.nichi.repository.UserBookProgressRepository;
 import top.sakablog.nichi.service.UserProfileService;
 import top.sakablog.nichi.service.UserService;
 import top.sakablog.nichi.service.UserBookProgressService;
-import top.sakablog.nichi.service.WordMasteryService;
 
 import java.util.List;
 

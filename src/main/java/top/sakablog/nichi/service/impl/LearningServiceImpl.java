@@ -9,11 +9,11 @@ import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.mapper.WordMasteryMapper;
 import top.sakablog.nichi.mapper.WordMapper;
-import top.sakablog.nichi.model.UserBookProgress;
-import top.sakablog.nichi.model.WordMastery;
-import top.sakablog.nichi.model.Word;
-import top.sakablog.nichi.model.dto.WordMasteryDto;
-import top.sakablog.nichi.model.dto.WordMasteryScoreDto;
+import top.sakablog.nichi.model.entity.study.UserBookProgress;
+import top.sakablog.nichi.model.entity.study.WordMastery;
+import top.sakablog.nichi.model.entity.word.Word;
+import top.sakablog.nichi.model.dto.study.WordMasteryDto;
+import top.sakablog.nichi.model.dto.study.WordMasteryScoreDto;
 import top.sakablog.nichi.repository.WordMasteryRepository;
 import top.sakablog.nichi.service.*;
 

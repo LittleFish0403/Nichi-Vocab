@@ -53,13 +53,6 @@ public class RestResponse<T> {
         return new RestResponse<>(true, ResultCode.SUCCESS, null);
     }
 
-    /** 成功：无数据，自定义成功消息 */
-    public static <T> RestResponse<Void> success(String message) {
-        RestResponse<Void> response = new RestResponse<>(true, ResultCode.SUCCESS, null);
-        response.setMessage(message);
-        return response;
-    }
-
     /** 失败：枚举 */
     public static <T> RestResponse<T> fail(ResultCode resultCode) {
         return new RestResponse<>(false, resultCode, null);

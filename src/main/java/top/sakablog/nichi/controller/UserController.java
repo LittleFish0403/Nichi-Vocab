@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.sakablog.nichi.common.response.RestResponse;
 import top.sakablog.nichi.mapper.UserMapper;
-import top.sakablog.nichi.model.dto.UserDto;
-import top.sakablog.nichi.model.dto.UserProfileDto;
+import top.sakablog.nichi.model.dto.user.UserDto;
+import top.sakablog.nichi.model.dto.user.UserProfileDto;
 import top.sakablog.nichi.service.UserProfileService;
 import top.sakablog.nichi.service.UserService;
 

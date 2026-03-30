@@ -1,6 +1,6 @@
 package top.sakablog.nichi.service;
 
-import top.sakablog.nichi.model.User;
+import top.sakablog.nichi.model.entity.user.User;
 
 /**
  * UserService
