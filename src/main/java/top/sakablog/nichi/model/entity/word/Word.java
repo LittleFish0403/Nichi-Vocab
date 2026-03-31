@@ -24,6 +24,7 @@ import java.util.List;
 @Schema(description = "V2 词条主表实体")
 public class Word {
 
+    /** 主键 ID */
     @Id
     @NotNull
     @Column(name = "id", nullable = false, unique = true)
@@ -31,42 +32,55 @@ public class Word {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
+    /** 词条唯一标识 */
     @Column(name = "entry_id", nullable = false, unique = true, length = 100)
     private String entryId;
 
+    /** 词条类型 */
     @Column(name = "entry_type", nullable = false, length = 20)
     private String entryType;
 
+    /** 词条表记 */
     @Column(name = "headword", nullable = false, length = 100)
     private String headword;
 
+    /** 词条假名 */
     @Column(name = "headword_kana", length = 100)
     private String headwordKana;
 
+    /** 是否仅假名 */
     @Column(name = "kana_only", nullable = false)
     private Boolean kanaOnly = false;
 
+    /** 创建时间 */
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    /** 更新时间 */
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    /** 关联书词记录 */
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookWord> bookWords;
 
+    /** 关联词义列表 */
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WordSense> senses;
 
+    /** 关联分类信息 */
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WordClassification> classifications;
 
+    /** 关联发音信息 */
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WordPronunce> pronunces;
 
+    /** 关联例句列表 */
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WordExample> examples;
 
+    /** 关联词条关系 */
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WordRelation> relations;
 
