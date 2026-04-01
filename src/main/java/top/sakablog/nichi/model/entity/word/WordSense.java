@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Collate;
 import top.sakablog.nichi.config.Snowflake;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class WordSense {
 
     /** 词义唯一标识 */
     @Column(name = "sense_id", nullable = false, length = 100)
+    @Collate("utf8mb4_bin")
     private String senseId;
 
     /** 词义来源 */
@@ -65,6 +67,6 @@ public class WordSense {
     private Word word;
 
     /** 关联来源出现记录 */
-    @OneToMany(mappedBy = "sense", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WordSourceOccurrence> sourceOccurrences;
+    @OneToOne(mappedBy = "sense", cascade = CascadeType.ALL, orphanRemoval = true)
+    private WordSourceOccurrence sourceOccurrence;
 }

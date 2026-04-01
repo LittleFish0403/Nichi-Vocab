@@ -7,15 +7,16 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Collate;
 import top.sakablog.nichi.config.Snowflake;
 
 @Getter
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "word_pronunce")
+@Table(name = "word_pronunciation")
 @Schema(description = "词条发音实体")
-public class WordPronunce {
+public class WordPronunciation {
 
     /** 主键 ID */
     @Id

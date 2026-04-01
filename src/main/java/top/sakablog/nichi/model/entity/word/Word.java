@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Collate;
 import top.sakablog.nichi.config.Snowflake;
 import top.sakablog.nichi.model.entity.BookWord;
 
@@ -34,6 +35,7 @@ public class Word {
 
     /** 词条唯一标识 */
     @Column(name = "entry_id", nullable = false, unique = true, length = 100)
+    @Collate("utf8mb4_bin")
     private String entryId;
 
     /** 词条类型 */
@@ -42,10 +44,12 @@ public class Word {
 
     /** 词条表记 */
     @Column(name = "headword", nullable = false, length = 100)
+    @Collate("utf8mb4_bin")
     private String headword;
 
     /** 词条假名 */
     @Column(name = "headword_kana", length = 100)
+    @Collate("utf8mb4_bin")
     private String headwordKana;
 
     /** 是否仅假名 */
@@ -69,12 +73,12 @@ public class Word {
     private List<WordSense> senses;
 
     /** 关联分类信息 */
-    @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WordClassification> classifications;
+    @OneToOne(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
+    private WordClassification classification;
 
     /** 关联发音信息 */
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WordPronunce> pronunces;
+    private List<WordPronunciation> pronunciations;
 
     /** 关联例句列表 */
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -62,7 +62,7 @@ public class WordClassification {
     private Boolean isName;
 
     /** 关联词条 */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "word_id")
     private Word word;
 }

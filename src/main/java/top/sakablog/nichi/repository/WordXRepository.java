@@ -9,7 +9,7 @@ import top.sakablog.nichi.model.entity.word.Word;
 import java.util.List;
 
 /**
- * WordRepository
+ * WordXRepository
  * <p>
  * 单词数据库操作
  * </p>
@@ -19,7 +19,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Repository
-public interface WordRepository extends JpaRepository<Word, Long> {
+public interface WordXRepository extends JpaRepository<Word, Long> {
 
     // 根据单词书ID查询单词列表
     @Query("SELECT w FROM Word w " +

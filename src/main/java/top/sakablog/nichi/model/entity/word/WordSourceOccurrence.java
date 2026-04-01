@@ -46,7 +46,7 @@ public class WordSourceOccurrence {
     private String textbookSet;
 
     /** 关联词义 */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sense_id")
     private WordSense sense;
 }

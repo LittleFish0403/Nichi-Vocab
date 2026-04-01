@@ -1,4 +1,4 @@
-package top.sakablog.nichi.repository;
+package top.sakablog.nichi.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import top.sakablog.nichi.model.entity.user.UserProfile;
