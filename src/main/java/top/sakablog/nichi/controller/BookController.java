@@ -102,7 +102,8 @@ public class BookController {
     public RestResponse<List<WordDto>> getWordsInWordBook(
            @PathVariable Long wordBooksId) {
         List<Word> words = wordService.findAllWordsByBookId(wordBooksId);
-        return RestResponse.success(wordMapper.toDtoList(words));
+//        return RestResponse.success(wordMapper.toDtoList(words));
+        return null;
     }
 
     /**

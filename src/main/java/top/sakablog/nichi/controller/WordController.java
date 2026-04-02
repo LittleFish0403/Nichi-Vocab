@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.sakablog.nichi.common.response.RestResponse;
 import top.sakablog.nichi.model.dto.word.WordDto;
+import top.sakablog.nichi.model.dto.word.WordSimpleDto;
 import top.sakablog.nichi.service.WordService;
 
 /**
@@ -27,6 +28,11 @@ public class WordController {
 
     @GetMapping("/{wordId}")
     public RestResponse<WordDto> getWord(@PathVariable("wordId") Long wordId) {
-        return RestResponse.success(wordService.getWordById(wordId));
+        return RestResponse.success(wordService.getWordDtoById(wordId));
+    }
+
+    @GetMapping("/simple/{wordId}")
+    public RestResponse<WordSimpleDto> getWordSimple(@PathVariable("wordId") Long wordId) {
+        return RestResponse.success(wordService.getWordSimpleDtoById(wordId));
     }
 }

@@ -7,7 +7,7 @@ import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.mapper.UserProfileMapper;
 import top.sakablog.nichi.model.dto.user.UserProfileDto;
-import top.sakablog.nichi.repository.UserProfileRepository;
+import top.sakablog.nichi.repository.user.UserProfileRepository;
 import top.sakablog.nichi.service.UserProfileService;
 
 /**

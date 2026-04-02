@@ -10,8 +10,8 @@ import top.sakablog.nichi.common.ResultCode;
 import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.mapper.WordMapper;
-import top.sakablog.nichi.model.Book;
-import top.sakablog.nichi.model.Word;
+import top.sakablog.nichi.model.entity.Book;
+import top.sakablog.nichi.model.entity.word.Word;
 import top.sakablog.nichi.model.dto.book.BookDto;
 import top.sakablog.nichi.model.dto.book.WordImportDto;
 import top.sakablog.nichi.repository.BookRepository;
@@ -48,44 +48,45 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(rollbackOn = Exception.class)
     public Book importBookFromCsv(MultipartFile file) {
-        List<WordImportDto> importWords;
-        Book savedBook;
-        String originalFilename = file.getOriginalFilename();
-
-        try {
-            log.info("开始导入上传的文件: {}", originalFilename);
-            if (file.isEmpty()) {
-                throw new BusinessException("上传的文件不能为空");
-            }
-            savedBook = createBook(originalFilename, "<NULL>");
-        } catch (BusinessException e) {
-            throw e;
-        } catch (Exception e) {
-            log.error("初始化词书失败: {}", e.getMessage());
-            throw new SystemException("初始化词书失败");
-        }
-
-        try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
-            importWords = csvUtils.beanBuilder(reader, WordImportDto.class);
-            log.info("CSV解析成功，获取到 {} 条原始数据", importWords.size());
-            savedBook.setCount(importWords.size());
-            savedBook = bookRepository.save(savedBook);
-        } catch (Exception e) {
-            log.error("CSV解析失败: {}", e.getMessage());
-            throw new BusinessException("CSV解析失败，请核对CSV格式或编码(建议UTF-8): " + e.getMessage());
-        }
-
-        try {
-            List<Word> words = wordMapper.toEntityListFromImportDto(importWords);
-            List<Word> savedWords = wordService.saveAllWords(words);
-            bookWordService.saveAllBookWords(savedWords, savedBook);
-        } catch (Exception e) {
-            log.error("单词保存失败: {}", e.getMessage());
-            throw new SystemException("单词保存失败，数据库报错", e);
-        }
-
-        log.info("词书导入成功: {}", savedBook.getName());
-        return savedBook;
+//        List<WordImportDto> importWords;
+//        Book savedBook;
+//        String originalFilename = file.getOriginalFilename();
+//
+//        try {
+//            log.info("开始导入上传的文件: {}", originalFilename);
+//            if (file.isEmpty()) {
+//                throw new BusinessException("上传的文件不能为空");
+//            }
+//            savedBook = createBook(originalFilename, "<NULL>");
+//        } catch (BusinessException e) {
+//            throw e;
+//        } catch (Exception e) {
+//            log.error("初始化词书失败: {}", e.getMessage());
+//            throw new SystemException("初始化词书失败");
+//        }
+//
+//        try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+//            importWords = csvUtils.beanBuilder(reader, WordImportDto.class);
+//            log.info("CSV解析成功，获取到 {} 条原始数据", importWords.size());
+//            savedBook.setCount(importWords.size());
+//            savedBook = bookRepository.save(savedBook);
+//        } catch (Exception e) {
+//            log.error("CSV解析失败: {}", e.getMessage());
+//            throw new BusinessException("CSV解析失败，请核对CSV格式或编码(建议UTF-8): " + e.getMessage());
+//        }
+//
+//        try {
+//            List<Word> words = wordMapper.toEntityListFromImportDto(importWords);
+//            List<Word> savedWords = wordService.saveAllWords(words);
+//            bookWordService.saveAllBookWords(savedWords, savedBook);
+//        } catch (Exception e) {
+//            log.error("单词保存失败: {}", e.getMessage());
+//            throw new SystemException("单词保存失败，数据库报错", e);
+//        }
+//
+//        log.info("词书导入成功: {}", savedBook.getName());
+//        return savedBook;
+        return null;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package top.sakablog.nichi.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import top.sakablog.nichi.model.Book;
+import top.sakablog.nichi.model.entity.Book;
 import top.sakablog.nichi.model.dto.book.BookDto;
 
 import java.util.List;

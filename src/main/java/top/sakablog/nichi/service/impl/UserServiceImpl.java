@@ -7,8 +7,8 @@ import top.sakablog.nichi.common.exception.BusinessException;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.entity.user.User;
 import top.sakablog.nichi.model.entity.user.UserProfile;
-import top.sakablog.nichi.repository.UserProfileRepository;
-import top.sakablog.nichi.repository.UserRepository;
+import top.sakablog.nichi.repository.user.UserProfileRepository;
+import top.sakablog.nichi.repository.user.UserRepository;
 import top.sakablog.nichi.service.UserProfileService;
 import top.sakablog.nichi.service.UserService;
 

@@ -11,7 +11,7 @@ import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.model.entity.user.User;
 import top.sakablog.nichi.model.entity.user.UserAuth;
 import top.sakablog.nichi.model.enums.IdentityType;
-import top.sakablog.nichi.repository.UserAuthRepository;
+import top.sakablog.nichi.repository.user.UserAuthRepository;
 import top.sakablog.nichi.service.UserAuthService;
 import top.sakablog.nichi.service.UserService;
 

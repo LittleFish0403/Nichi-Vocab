@@ -1,14 +1,15 @@
 package top.sakablog.nichi.service.impl;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import top.sakablog.nichi.common.exception.SystemException;
 import top.sakablog.nichi.mapper.WordMapper;
+import top.sakablog.nichi.model.dto.word.WordSimpleDto;
 import top.sakablog.nichi.model.entity.word.Word;
 import top.sakablog.nichi.model.dto.word.WordDto;
-import top.sakablog.nichi.repository.WordRepository;
+import top.sakablog.nichi.repository.word.WordRepository;
 import top.sakablog.nichi.service.WordService;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Service
+@Slf4j
 public class WordServiceImpl implements WordService {
     @Autowired
     private WordRepository wordRepository;
@@ -32,35 +34,30 @@ public class WordServiceImpl implements WordService {
     private WordMapper wordMapper;
 
     @Override
-    public List<Word> findAllWordsByBookId(Long bookId){
+    @Transactional()
+    public WordDto getWordDtoById(Long id){
         try {
-            return wordRepository.findWordsByBookId(bookId);
-        } catch (EmptyResultDataAccessException e){
-            throw new SystemException("未找到对应单词本的单词列表，单词本ID: " + bookId);
-        } catch (Exception e) {
-            throw new SystemException("未找到对应单词本的单词列表");
+            return wordMapper.toWordDto(getWordById(id));
+        } catch (Exception e){
+            throw new SystemException(e.getMessage());
         }
     }
 
     @Override
-    public Word saveWord(Word word) {
-        return wordRepository.save(word);
+    public Word getWordById(Long id){
+        try {
+            return wordRepository.findById(id).orElseThrow();
+        } catch (Exception e){
+            throw new SystemException(e.getMessage());
+        }
     }
 
     @Override
-    @Transactional
-    public List<Word> saveAllWords(List<Word> words) {
-        return wordRepository.saveAll(words);
-    }
-
-    @Override
-    public Word saveWordByBookId(Long bookId, Word word) {
-        return null;
-    }
-
-    @Override
-    public WordDto getWordById(Long wordId){
-        return wordMapper.toDto(wordRepository.findById(wordId)
-                .orElseThrow(() -> new SystemException("未找到对应ID的单词，ID: " + wordId)));
+    public WordSimpleDto getWordSimpleDtoById(Long id){
+        try {
+            return wordMapper.toSimpleWordDto(getWordById(id));
+        } catch (Exception e){
+            throw new SystemException(e.getMessage());
+        }
     }
 }
