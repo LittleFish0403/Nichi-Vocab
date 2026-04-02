@@ -1,14 +1,9 @@
 package top.sakablog.nichi.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import top.sakablog.nichi.model.entity.word.Word;
-import top.sakablog.nichi.model.dto.book.WordImportDto;
+import org.mapstruct.*;
 import top.sakablog.nichi.model.dto.word.WordDto;
-import top.sakablog.nichi.model.enums.WordType;
-
-import java.util.List;
+import top.sakablog.nichi.model.dto.word.WordSimpleDto;
+import top.sakablog.nichi.model.entity.word.Word;
 
 /**
  * WordMapper
@@ -20,33 +15,13 @@ import java.util.List;
  * @version 1.0.1
  * @since 1.0.0
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {WordMapper.class})
 public interface WordMapper {
-    /**
-     * Entity转DTO
-     */
-    WordDto toDto(Word word);
-    WordImportDto toImportWordDto(Word word);
+    WordDto toWordDto(Word word);
 
+    Word toWord(WordDto wordDto);
 
-    /**
-     * DTO转Entity
-     */
-    @Mapping(target = "wordType", source = "wordType", qualifiedByName = "mapToWordType")
-    Word toEntityFromDto(WordDto wordDto);
-    @Mapping(target = "wordType", source = "wordType", qualifiedByName = "mapToWordType")
-    Word toEntityFromImportDto(WordImportDto wordImportDto);
+    WordSimpleDto toSimpleWordDto(Word word);
 
-    /**
-     * ListEntity转ListDTO 和 ListDTO转ListEntity
-     */
-    List<WordDto> toDtoList(List<Word> wordList);
-    List<WordImportDto> toImportWordDtoList(List<Word> wordList);
-    List<Word> toEntityListFromDto(List<WordDto> wordDtoList);
-    List<Word> toEntityListFromImportDto(List<WordImportDto> importWord);
-
-    @Named("mapToWordType")
-    default WordType mapToWordType(String typeStr) {
-        return WordType.fromString(typeStr);
-    }
+    Word toWord(WordSimpleDto wordSimpleDto);
 }

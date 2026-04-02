@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Collate;
 import top.sakablog.nichi.config.Snowflake;
 
@@ -67,6 +68,7 @@ public class WordSense {
     private Word word;
 
     /** 关联来源出现记录 */
-    @OneToOne(mappedBy = "sense", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "source_occurrence_id")
     private WordSourceOccurrence sourceOccurrence;
 }

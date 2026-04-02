@@ -1,28 +1,32 @@
 package top.sakablog.nichi.model.dto.word;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Value;
-import top.sakablog.nichi.model.entity.word.Word;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * DTO for {@link Word}
+ * DTO for {@link top.sakablog.nichi.model.entity.word.Word}
  */
 @Value
-@Schema(description = "单词DTO，包含单词的详细信息和关联的词书列表")
 public class WordDto implements Serializable {
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
     Long id;
-    @NotNull
-    String japaneseWord;
-    @NotNull
-    String kanaReading;
-    @NotNull
-    String meaningCn;
-    String wordType;
-    String source;
+    String entryId;
+    String entryType;
+    String headword;
+    String headwordKana;
+    Boolean kanaOnly;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    LocalDateTime updatedAt;
+    List<WordSenseDto> senses;
+    WordClassificationDto classification;
+    List<WordPronunciationDto> pronunciations;
+    List<WordExampleDto> examples;
+    List<WordRelationDto> relations;
 }

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Collate;
 import top.sakablog.nichi.config.Snowflake;
 import top.sakablog.nichi.model.entity.BookWord;

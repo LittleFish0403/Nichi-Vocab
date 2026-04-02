@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.BatchSize;
 import top.sakablog.nichi.config.Snowflake;
 
 @Getter
@@ -46,7 +47,7 @@ public class WordSourceOccurrence {
     private String textbookSet;
 
     /** 关联词义 */
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "sourceOccurrence")
     @JoinColumn(name = "sense_id")
     private WordSense sense;
 }
